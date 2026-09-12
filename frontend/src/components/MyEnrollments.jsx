@@ -16,22 +16,22 @@ const MyEnrollments = () => {
                 setLoading(false);
             }
         };
-
         fetchMyEnrollments();
     }, []);
 
-    if (loading) return <p>Loading your courses...</p>;
-    if (enrollments.length === 0) return <p style={{ color: 'gray' }}>You have not enrolled in any courses yet.</p>;
+    if (loading) return <p className="text-gray-500 animate-pulse">Loading your courses...</p>;
+    if (enrollments.length === 0) return <p className="text-gray-500 italic">You have not enrolled in any courses yet.</p>;
 
     return (
-        <div style={{ marginTop: '20px', padding: '20px', background: '#f4f9f4', border: '1px solid #c3e6cb', borderRadius: '5px' }}>
-            <h3 style={{ color: 'green', marginTop: 0 }}>✅ My Enrolled Courses</h3>
-            <ul style={{ paddingLeft: '20px' }}>
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6 shadow-sm">
+            <h3 className="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
+                ✅ My Enrolled Courses
+            </h3>
+            <ul className="space-y-4">
                 {enrollments.map((enrollment) => (
-                    <li key={enrollment._id} style={{ marginBottom: '10px' }}>
-                        <strong>{enrollment.course?.title}</strong> 
-                        <br />
-                        <small>{enrollment.course?.description}</small>
+                    <li key={enrollment._id} className="bg-white border border-green-100 p-4 rounded-md shadow-sm">
+                        <h4 className="text-lg font-bold text-gray-800">{enrollment.course?.title}</h4>
+                        <p className="text-gray-600 text-sm mt-1">{enrollment.course?.description}</p>
                     </li>
                 ))}
             </ul>

@@ -8,7 +8,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     
-    const { login } = useContext(AuthContext); 
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -23,22 +23,41 @@ const Login = () => {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc' }}>
-            <h2>Login</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div className="max-w-md mx-auto mt-20 p-8 bg-white rounded-lg shadow-md border border-gray-200">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login</h2>
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Email</label><br />
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '8px' }} />
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Email</label>
+                    <input 
+                        type="email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        required 
+                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Password</label><br />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: '100%', padding: '8px' }} />
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Password</label>
+                    <input 
+                        type="password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        required 
+                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                 </div>
-                <button type="submit" style={{ width: '100%', padding: '10px', background: 'blue', color: 'white' }}>Login</button>
+                <button 
+                    type="submit" 
+                    className="w-full bg-blue-600 text-white font-bold py-3 rounded-md hover:bg-blue-700 transition duration-300"
+                >
+                    Login
+                </button>
             </form>
-            <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            <p className="text-center text-gray-600 mt-6">
+                Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register here</Link>
+            </p>
         </div>
     );
 };
