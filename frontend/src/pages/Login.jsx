@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import api from '../utils/api';
+import { GoogleLogin } from '@react-oauth/google'; 
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -55,8 +56,32 @@ const Login = () => {
                     Login
                 </button>
             </form>
-            <p className="text-center text-gray-600 mt-6">
-                Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register here</Link>
+
+         
+            <div className="mt-8 border-t border-gray-200 pt-6">
+                <p className="text-center text-gray-500 mb-4 text-sm font-medium">Or continue with</p>
+                <div className="flex justify-center">
+                    <GoogleLogin
+                        onSuccess={async (credentialResponse) => {
+                            try {
+                                const { data } = await api.post('/users/google', { 
+                                    credential: credentialResponse.credential 
+                                });
+                                login(data);
+                                navigate('/dashboard');
+                            } catch (err) {
+                                setError('Google Login Failed. Please try again.');
+                            }
+                        }}
+                        onError={() => {
+                            setError('Google Login Failed. Please check your connection.');
+                        }}
+                    />
+                </div>
+            </div>
+
+            <p className="text-center text-gray-600 mt-8">
+                Don't have an account? <Link to="/register" className="text-blue-600 hover:underline font-semibold">Register here</Link>
             </p>
         </div>
     );
