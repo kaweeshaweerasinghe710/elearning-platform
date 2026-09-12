@@ -3,12 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import api from '../utils/api';
 import { GoogleLogin } from '@react-oauth/google'; 
+import AuthLayout from '../components/AuthLayout';
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('student');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
     
     const { login } = useContext(AuthContext);
@@ -26,87 +28,84 @@ const Register = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-20 p-8 bg-white rounded-lg shadow-md border border-gray-200">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Register</h2>
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <AuthLayout 
+            title="Join Us"
+            subtitle="Create An Account"
+            description="Unlock premium courses, interact with expert instructors, and take control of your learning journey today."
+        >
+            <h2 className="text-3xl font-extrabold text-[#1256ae] mb-2">Sign up</h2>
+            <p className="text-[11px] text-gray-400 mb-6 font-medium">Enter your details to create an account</p>
             
+            {error && <div className="bg-red-50 text-red-500 p-3 rounded-lg text-xs text-center mb-4 border border-red-100">{error}</div>}
+
             <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-gray-700 font-medium mb-1">Name</label>
+                <input 
+                    type="text" 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
+                    required 
+                    placeholder="Full Name"
+                    className="w-full p-4 bg-transparent border border-gray-200 rounded-xl focus:outline-none focus:border-[#1256ae] text-sm text-gray-800 placeholder-gray-400 transition-colors"
+                />
+
+                <input 
+                    type="email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    required 
+                    placeholder="Email Address"
+                    className="w-full p-4 bg-transparent border border-gray-200 rounded-xl focus:outline-none focus:border-[#1256ae] text-sm text-gray-800 placeholder-gray-400 transition-colors"
+                />
+                
+                <div className="relative">
                     <input 
-                        type="text" 
-                        value={name} 
-                        onChange={(e) => setName(e.target.value)} 
-                        required 
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-medium mb-1">Email</label>
-                    <input 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-medium mb-1">Password</label>
-                    <input 
-                        type="password" 
+                        type={showPassword ? "text" : "password"} 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         required 
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Password"
+                        className="w-full p-4 bg-transparent border border-gray-200 rounded-xl focus:outline-none focus:border-[#1256ae] text-sm text-gray-800 placeholder-gray-400 pr-16 transition-colors"
                     />
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-medium mb-1">I am a...</label>
-                    <select 
-                        value={role} 
-                        onChange={(e) => setRole(e.target.value)} 
-                        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    <button 
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#1256ae] hover:text-blue-800 tracking-wider"
                     >
-                        <option value="student">Student</option>
-                        <option value="instructor">Instructor</option>
-                    </select>
+                        {showPassword ? "HIDE" : "SHOW"}
+                    </button>
                 </div>
-                <button 
-                    type="submit" 
-                    className="w-full bg-green-600 text-white font-bold py-3 rounded-md hover:bg-green-700 transition duration-300"
+
+                <select 
+                    value={role} 
+                    onChange={(e) => setRole(e.target.value)} 
+                    className="w-full p-4 bg-transparent border border-gray-200 rounded-xl focus:outline-none focus:border-[#1256ae] text-sm text-gray-600 transition-colors appearance-none"
                 >
-                    Register
+                    <option value="student">Join as a Student</option>
+                    <option value="instructor">Join as an Instructor</option>
+                </select>
+
+                <button type="submit" className="w-full bg-[#1256ae] text-white font-bold py-4 rounded-xl hover:bg-[#0c3977] hover:shadow-lg transition-all mt-4 text-sm">
+                    Sign Up
                 </button>
             </form>
 
-            
-            <div className="mt-8 border-t border-gray-200 pt-6">
-                <p className="text-center text-gray-500 mb-4 text-sm font-medium">Or continue with</p>
-                <div className="flex justify-center">
-                    <GoogleLogin
-                        onSuccess={async (credentialResponse) => {
-                            try {
-                                const { data } = await api.post('/users/google', { 
-                                    credential: credentialResponse.credential 
-                                });
-                                login(data);
-                                navigate('/dashboard');
-                            } catch (err) {
-                                setError('Google Login Failed. Please try again.');
-                            }
-                        }}
-                        onError={() => {
-                            setError('Google Login Failed. Please check your connection.');
-                        }}
-                    />
-                </div>
+            <div className="mt-6 flex justify-center hover:scale-105 transition-transform duration-300">
+                <GoogleLogin
+                    onSuccess={async (res) => {
+                        try {
+                            const { data } = await api.post('/users/google', { credential: res.credential });
+                            login(data);
+                            navigate('/dashboard');
+                        } catch (err) { setError('Google Login Failed.'); }
+                    }}
+                    onError={() => setError('Google Login Failed.')}
+                />
             </div>
 
-            <p className="text-center text-gray-600 mt-8">
-                Already have an account? <Link to="/login" className="text-green-600 hover:underline font-semibold">Login here</Link>
+            <p className="text-center text-gray-400 mt-6 text-[11px] font-medium">
+                Already have an account? <Link to="/login" className="text-[#1256ae] font-bold hover:underline">Sign in</Link>
             </p>
-        </div>
+        </AuthLayout>
     );
 };
 
