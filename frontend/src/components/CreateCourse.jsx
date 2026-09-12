@@ -21,48 +21,53 @@ const CreateCourse = () => {
     };
 
     return (
-        <div style={{ border: '1px solid #ccc', padding: '20px', marginTop: '20px', borderRadius: '5px' }}>
-            <h3>Create a New Course</h3>
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Create a New Course</h3>
+            
             {message && (
-                <p style={{ color: message.includes('success') ? 'green' : 'red', fontWeight: 'bold' }}>
+                <div className={`p-3 rounded mb-4 ${message.includes('success') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                     {message}
-                </p>
+                </div>
             )}
             
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Course Title</label><br />
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Course Title</label>
                     <input 
                         type="text" 
                         value={title} 
                         onChange={(e) => setTitle(e.target.value)} 
                         required 
-                        style={{ width: '100%', padding: '8px' }} 
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                 </div>
                 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Description</label><br />
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Description</label>
                     <textarea 
                         value={description} 
                         onChange={(e) => setDescription(e.target.value)} 
                         required 
-                        style={{ width: '100%', padding: '8px', minHeight: '80px' }} 
+                        rows="3"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                 </div>
                 
-                <div style={{ marginBottom: '10px' }}>
-                    <label>Course Content (Syllabus or Video URL)</label><br />
+                <div>
+                    <label className="block text-gray-700 font-medium mb-1">Course Content (Syllabus or Video URL)</label>
                     <input 
                         type="text" 
                         value={content} 
                         onChange={(e) => setContent(e.target.value)} 
                         required 
-                        style={{ width: '100%', padding: '8px' }} 
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                 </div>
                 
-                <button type="submit" style={{ padding: '10px 15px', background: 'orange', color: 'black', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+                <button 
+                    type="submit" 
+                    className="w-full md:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded transition duration-300"
+                >
                     Publish Course
                 </button>
             </form>
