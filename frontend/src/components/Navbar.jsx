@@ -9,7 +9,12 @@ const Navbar = () => {
     const handleLogout = () => {
         logout();
         navigate('/login');
-    };
+    };  
+    
+const hiddenRoutes = ['/', '/login', '/register', '/dashboard'];
+if (hiddenRoutes.includes(location.pathname)) {
+    return null;
+}
 
     return (
         <nav className="flex justify-between items-center bg-gray-900 text-white py-4 px-8 shadow-md">
