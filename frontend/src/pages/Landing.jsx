@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import LandingHeader from '../components/LandingHeader';
 import HeroText from '../components/HeroText';
 import HeroIllustration from '../components/HeroIllustration';
+import AboutUs from '../components/AboutUs';
+import ContactUs from '../components/ContactUs';
 
 const Landing = () => {
+    const [activeModal, setActiveModal] = useState(null); 
+
     return (
         <div className="h-screen w-full bg-gradient-to-br from-[#4ea1ff] via-[#2d7ae5] to-[#1256ae] relative overflow-hidden font-sans flex flex-col">
             <style>{`
@@ -15,9 +20,17 @@ const Landing = () => {
                 .float-delay-2 { animation-delay: 2s; }
             `}</style>
 
-            <LandingHeader />
-            <HeroText />
-            <HeroIllustration />
+            <LandingHeader 
+                onOpenAbout={() => setActiveModal('about')} 
+                onOpenContact={() => setActiveModal('contact')} 
+            />
+            
+            <div className="flex-1 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 max-w-7xl mx-auto w-full">
+                <HeroText />
+                <HeroIllustration />
+            </div>
+            {activeModal === 'about' && <AboutUs onClose={() => setActiveModal(null)} />}
+            {activeModal === 'contact' && <ContactUs onClose={() => setActiveModal(null)} />}
             
         </div>
     );

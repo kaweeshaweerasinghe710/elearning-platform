@@ -4,6 +4,7 @@ import AuthContext from '../context/AuthContext';
 import api from '../utils/api';
 import { GoogleLogin } from '@react-oauth/google'; 
 import AuthLayout from '../components/AuthLayout';
+import { EyeOpenIcon, EyeClosedIcon } from '../components/Icons';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -58,9 +59,10 @@ const Login = () => {
                     <button 
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[#1256ae] hover:text-blue-800 tracking-wider"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#1256ae] transition-colors"
+                        title={showPassword ? "Hide Password" : "Show Password"}
                     >
-                        {showPassword ? "HIDE" : "SHOW"}
+                        {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </button>
                 </div>
 
