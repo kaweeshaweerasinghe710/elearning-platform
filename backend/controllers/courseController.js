@@ -2,11 +2,12 @@ const Course = require('../models/Course');
 
 const createCourse = async (req, res) => {
     try {
-        const { title, description, content } = req.body;
+        const { title, description, content, modules } = req.body;
         const course = await Course.create({
             title,
             description,
             content,
+            modules: modules || [],
             instructor: req.user._id 
         });
 

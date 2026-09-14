@@ -11,8 +11,16 @@ const courseSchema = new mongoose.Schema({
     },
     content: { 
         type: String, 
-        required: true 
+        required: false 
     },
+    modules: [{
+        title: { type: String, required: true },
+        items: [{
+            title: { type: String, required: true },
+            itemType: { type: String, enum: ['pdf', 'video', 'link'], required: true },
+            url: { type: String, required: true }
+        }]
+    }],
     instructor: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true, 
