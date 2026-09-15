@@ -35,7 +35,7 @@ const CourseCard = ({ course, onEnroll }) => {
                             <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{course.content || 'No detailed overview provided.'}</p>
                         </div>
                         
-                        <div className="course-instructor-row">
+                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100">
                             <div className="flex items-center gap-2">
                                 <div className="nav-avatar w-8 h-8 text-xs bg-indigo-50 text-indigo-600">
                                     {course.instructor?.name?.charAt(0) || 'I'}
@@ -48,7 +48,7 @@ const CourseCard = ({ course, onEnroll }) => {
                             {user.role === 'student' && (
                                 <button 
                                     onClick={handleEnrollClick} 
-                                    className="enroll-btn"
+                                    className="btn-primary ml-auto"
                                 >
                                     Enroll
                                 </button>

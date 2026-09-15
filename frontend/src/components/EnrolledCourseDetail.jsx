@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AccordionSection from './AccordionSection';
+import StudentCourseModules from './StudentCourseModules';
 
 const EnrolledCourseDetail = ({ course, onBack }) => {
     return (
@@ -14,13 +15,9 @@ const EnrolledCourseDetail = ({ course, onBack }) => {
                 {course.title}
             </h2>
             <div className="bg-gray-50 p-6 rounded-md border border-gray-200">
-                <AccordionSection title="General" showCollapseAll={true} onCollapseAll={() => {}}>
-                    <div className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded-md cursor-pointer transition-colors w-fit">
-                        <span className="text-sm font-medium text-blue-600 hover:underline">Announcements</span>
-                    </div>
-                </AccordionSection>
+
                 {course.schedule && course.schedule.weeklySlots && course.schedule.weeklySlots.length > 0 ? (
-                    <AccordionSection title=" Weekly Schedule" showCollapseAll={false}>
+                    <AccordionSection title="Weekly Schedule" showCollapseAll={false}>
                         <div className="flex flex-col gap-3">
                             {course.schedule.startDate && (
                                 <div className="flex items-center gap-3 p-3 bg-indigo-50 rounded-lg border border-indigo-100">
@@ -52,6 +49,7 @@ const EnrolledCourseDetail = ({ course, onBack }) => {
                     </div>
                 )}
             </div>
+            <StudentCourseModules weeks={course.weeks} />
         </div>
     );
 };
