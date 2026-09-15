@@ -8,7 +8,7 @@ const ContactUs = ({ onClose }) => {
                 >
                     ✕
                 </button>
-                <div className="md:w-2/5 bg-gradient-to-b from-[#1256ae] to-[#0c3977] text-white p-12 flex flex-col justify-center relative overflow-hidden">
+                <div className="md:w-2/5 bg-gradient-to-b from-primary to-primary-hover text-white p-12 flex flex-col justify-center relative overflow-hidden">
                     <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
                     <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
                     
@@ -26,17 +26,17 @@ const ContactUs = ({ onClose }) => {
                     <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Message sent successfully!'); onClose(); }}>
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Your Name</label>
-                            <input type="text" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#1256ae] outline-none font-medium text-sm transition-all" placeholder="John Doe" required />
+                            <input type="text" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary outline-none font-medium text-sm transition-all" placeholder="John Doe" required />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Email Address</label>
-                            <input type="email" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#1256ae] outline-none font-medium text-sm transition-all" placeholder="john@example.com" required />
+                            <input type="email" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary outline-none font-medium text-sm transition-all" placeholder="john@example.com" required />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Message</label>
-                            <textarea rows="4" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-[#1256ae] outline-none resize-none font-medium text-sm transition-all" placeholder="How can we help you today?" required></textarea>
+                            <textarea rows="4" className="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary outline-none resize-none font-medium text-sm transition-all" placeholder="How can we help you today?" required></textarea>
                         </div>
-                        <button type="submit" className="w-full bg-[#1256ae] text-white font-black text-lg py-4 rounded-2xl hover:bg-[#0c3977] shadow-[0_10px_20px_rgba(18,86,174,0.3)] hover:shadow-[0_15px_30px_rgba(18,86,174,0.4)] hover:-translate-y-1 transition-all duration-300">
+                        <button type="submit" className="btn-primary btn-lg w-full shadow-[0_10px_20px_rgba(18,86,174,0.3)] hover:shadow-[0_15px_30px_rgba(18,86,174,0.4)] hover:-translate-y-1">
                             Send Message
                         </button>
                     </form>

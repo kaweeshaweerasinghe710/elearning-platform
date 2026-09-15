@@ -20,49 +20,49 @@ const AddInstructor = () => {
     };
 
     return (
-        <div className="bg-white rounded-[24px] p-8 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-gray-100 max-w-lg">
-            <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <div className="bg-white rounded-md p-6 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">
                  Add New Instructor
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-6 ${isSuccess ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                     {message}
                 </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-1">Name</label>
                     <input 
                         type="text" 
                         value={formData.name} 
                         onChange={(e) => setFormData({...formData, name: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-black outline-none text-sm"
                     />
                 </div>
                 <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-1">Email</label>
                     <input 
                         type="email" 
                         value={formData.email} 
                         onChange={(e) => setFormData({...formData, email: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-black outline-none text-sm"
                     />
                 </div>
                 <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-1">Password</label>
                     <input 
                         type="password" 
                         value={formData.password} 
                         onChange={(e) => setFormData({...formData, password: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-black outline-none text-sm"
                     />
                 </div>
-                <button type="submit" className="w-full mt-4 bg-[#1256ae] hover:bg-[#0c3977] text-white font-bold py-3 rounded-xl shadow-md transition-all">
+                <button type="submit" className="w-full mt-2 bg-black hover:bg-gray-800 text-white font-medium py-2 rounded-md transition-colors text-sm">
                     Add Instructor
                 </button>
             </form>

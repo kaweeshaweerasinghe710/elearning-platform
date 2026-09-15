@@ -9,7 +9,7 @@ const Landing = () => {
     const [activeModal, setActiveModal] = useState(null); 
 
     return (
-        <div className="h-screen w-full bg-gradient-to-br from-[#4ea1ff] via-[#2d7ae5] to-[#1256ae] relative overflow-hidden font-sans flex flex-col">
+        <div className="h-screen w-full bg-gradient-to-br from-accent via-accent-hover to-primary relative overflow-hidden font-sans flex flex-col">
             <style>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0px); }

@@ -18,17 +18,17 @@ const AboutUs = ({ onClose }) => {
                     
                     <div className="flex gap-6">
                         <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 flex-1 text-center shadow-sm hover:-translate-y-2 transition-transform duration-300">
-                            <h4 className="text-[#1256ae] font-black text-4xl mb-2">10K+</h4>
+                            <h4 className="text-primary font-black text-4xl mb-2">10K+</h4>
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Active Students</p>
                         </div>
                         <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 flex-1 text-center shadow-sm hover:-translate-y-2 transition-transform duration-300">
-                            <h4 className="text-[#1256ae] font-black text-4xl mb-2">500+</h4>
+                            <h4 className="text-primary font-black text-4xl mb-2">500+</h4>
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Instructors</p>
                         </div>
                     </div>
                 </div>
                 <div className="md:w-1/2 w-full relative">
-                    <div className="aspect-square max-w-sm mx-auto bg-gradient-to-tr from-blue-100 to-[#1256ae]/20 rounded-[4rem] p-8 flex items-center justify-center rotate-3 hover:rotate-0 transition-all duration-500 shadow-xl">
+                    <div className="aspect-square max-w-sm mx-auto bg-gradient-to-tr from-blue-100 to-primary/20 rounded-[4rem] p-8 flex items-center justify-center rotate-3 hover:rotate-0 transition-all duration-500 shadow-xl">
                         <span className="text-[140px] drop-shadow-2xl animate-float">🎓</span>
                     </div>
                 </div>
