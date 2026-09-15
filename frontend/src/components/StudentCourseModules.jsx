@@ -1,4 +1,5 @@
 import AccordionSection from './AccordionSection';
+import { Download } from 'lucide-react';
 
 const StudentCourseModules = ({ weeks }) => {
     if (!weeks || weeks.length === 0) return null;
@@ -21,8 +22,8 @@ const StudentCourseModules = ({ weeks }) => {
                                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Class Links</h4>
                                 <div className="grid gap-2">
                                     {week.classLinks.map((link, lIdx) => (
-                                        <a key={lIdx} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-blue-400 hover:shadow-sm transition-all group">
-                                            <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">🔗</span>
+                                        <a key={lIdx} href={link.url || '#'} onClick={(e) => { e.stopPropagation(); if(!link.url) e.preventDefault(); }} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-blue-400 hover:shadow-sm transition-all group">
+                                            <span className="text-lg">🔗</span>
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{link.title}</span>
                                                 {link.date && <span className="text-xs text-slate-500">{new Date(link.date).toLocaleDateString()}</span>}
@@ -37,17 +38,19 @@ const StudentCourseModules = ({ weeks }) => {
                             <div>
                                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Study Materials</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    {week.resources.map((res, rIdx) => (
-                                        <a key={rIdx} href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-emerald-400 hover:shadow-sm transition-all group">
-                                            <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                                                {res.resourceType === 'video' ? '▶' : res.resourceType === 'pdf' ? '📄' : '📁'}
-                                            </span>
+                                    {week.resources.map((res, rIdx) => {
+                                        const downloadUrl = res.url;
+                                        return (
+                                        <a key={rIdx} href={downloadUrl || '#'} onClick={(e) => { e.stopPropagation(); if(!downloadUrl) e.preventDefault(); }} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg hover:border-emerald-400 hover:shadow-sm transition-all group">
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">{res.title}</span>
                                                 <span className="text-[10px] font-bold text-slate-400 uppercase">{res.resourceType}</span>
                                             </div>
+                                            <span className="text-slate-400 group-hover:text-emerald-600 transition-colors tooltip" title="Download">
+                                                <Download size={20} />
+                                            </span>
                                         </a>
-                                    ))}
+                                    )})}
                                 </div>
                             </div>
                         )}

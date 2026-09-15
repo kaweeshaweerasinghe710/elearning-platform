@@ -18,6 +18,12 @@ const ResourceRow = ({ resource, onUpdate, onRemove }) => {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             onUpdate('url', data.url);
+            
+            setTimeout(() => {
+                if (file.type.startsWith('video/')) onUpdate('resourceType', 'video');
+                else if (file.type === 'application/pdf') onUpdate('resourceType', 'pdf');
+                else onUpdate('resourceType', 'file');
+            }, 100);
         } catch (error) {
             console.error("Upload failed", error);
             alert("Upload failed");

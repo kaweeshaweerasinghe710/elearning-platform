@@ -18,6 +18,10 @@ const storage = new CloudinaryStorage({
                 return 'raw';
             }
             return 'auto';
+        },
+        public_id: (req, file) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            return `${uniqueSuffix}-${file.originalname}`;
         }
     },
 });

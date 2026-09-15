@@ -1,21 +1,27 @@
 import { useCourses } from '../hooks/useCourses';
+import { useEnrollments } from '../hooks/useEnrollments';
 import CourseCard from './CourseCard'; 
 import CourseChatbot from './CourseChatbot';
 
 const CourseList = () => {
-    const { courses, loading, enroll } = useCourses();
+    const { courses, loading: coursesLoading, enroll } = useCourses();
+    const { enrollments } = useEnrollments();
   
     const handleEnroll = async (courseId) => {
         const result = await enroll(courseId);
         if (result.success) {
             alert('Successfully enrolled in the course! ');
+            window.location.reload(); 
         } else {
             alert(result.message);
         }
     };
 
+    if (coursesLoading) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
 
-    if (loading) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
+    const getIsEnrolled = (courseId) => {
+        return enrollments.some(enrollment => enrollment.course?._id === courseId);
+    };
 
     return (
         <div className="list-container">
@@ -34,6 +40,7 @@ const CourseList = () => {
                             key={course._id} 
                             course={course} 
                             onEnroll={handleEnroll} 
+                            isEnrolled={getIsEnrolled(course._id)}
                         />
                     ))}
                 </div>
