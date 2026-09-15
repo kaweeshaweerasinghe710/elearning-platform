@@ -36,48 +36,18 @@ const Register = () => {
         >
             <h2 className="text-3xl font-extrabold text-primary mb-2">Sign up</h2>
             <p className="text-[11px] text-gray-400 mb-6 font-medium">Enter your details to create an account</p>
-            
             {error && <div className="bg-red-50 text-red-500 p-3 rounded-lg text-xs text-center mb-4 border border-red-100">{error}</div>}
 
             <form onSubmit={handleSubmit} className="space-y-4">
-                <input 
-                    type="text" 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
-                    required 
-                    placeholder="Full Name"
-                    className="auth-input"
-                />
-
-                <input 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                    placeholder="Email Address"
-                    className="auth-input"
-                />
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Full Name" className="auth-input" />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" className="auth-input" />
                 
                 <div className="relative">
-                    <input 
-                        type={showPassword ? "text" : "password"} 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
-                        placeholder="Password"
-                        className="auth-input pr-16"
-                    />
-                    <button 
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
-                        title={showPassword ? "Hide Password" : "Show Password"}
-                    >
+                    <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Password" className="auth-input pr-16" />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide Password" : "Show Password"} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors">
                         {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
                     </button>
                 </div>
-
-                
 
                 <button type="submit" className="auth-btn">
                     Sign Up
