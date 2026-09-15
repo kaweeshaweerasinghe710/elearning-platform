@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { LayoutIcon, BookIcon, PlusCircleIcon, SettingsIcon } from '../components/Icons';
+import { Layout, BookOpen, PlusCircle, Settings } from 'lucide-react';
 
 const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -26,18 +26,16 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
                         <span className="text-[10px] text-slate-500 font-medium">E-Learning Platform</span>
                     </div>
                 </div>
-
-                {/* Center: Navigation Links */}
                 <div className="hidden md:flex items-center gap-1">
                     {user.role === 'student' ? (
                         <>
-                            <NavLink active={activeTab === 'courses'} onClick={() => setActiveTab('courses')} icon={<LayoutIcon />}>Explore Courses</NavLink>
-                            <NavLink active={activeTab === 'enrollments'} onClick={() => setActiveTab('enrollments')} icon={<BookIcon />}>My Enrollments</NavLink>
+                            <NavLink active={activeTab === 'courses'} onClick={() => setActiveTab('courses')} icon={<Layout size={18} />}>Explore Courses</NavLink>
+                            <NavLink active={activeTab === 'enrollments'} onClick={() => setActiveTab('enrollments')} icon={<BookOpen size={18} />}>My Enrollments</NavLink>
                         </>
                     ) : (
                         <>
-                            <NavLink active={activeTab === 'manage'} onClick={() => setActiveTab('manage')} icon={<LayoutIcon />}>Dashboard</NavLink>
-                            <NavLink active={activeTab === 'create'} onClick={() => setActiveTab('create')} icon={<PlusCircleIcon />}>Create</NavLink>
+                            <NavLink active={activeTab === 'manage'} onClick={() => setActiveTab('manage')} icon={<Layout size={18} />}>Dashboard</NavLink>
+                            <NavLink active={activeTab === 'create'} onClick={() => setActiveTab('create')} icon={<PlusCircle size={18} />}>Create</NavLink>
                         </>
                     )}
                 </div>
@@ -64,7 +62,7 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
                                 }}
                                 className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors flex items-center gap-3 font-medium cursor-pointer"
                             >
-                                <span className="opacity-70"><SettingsIcon /></span> Settings
+                                <span className="opacity-70"><Settings size={18} /></span> Settings
                             </button>
                             <div className="h-px bg-slate-100 my-1"></div>
                             <button

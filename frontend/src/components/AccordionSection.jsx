@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronIcon } from './Icons';
+import { ChevronDown } from 'lucide-react';
 
 const AccordionSection = ({ title, children, showCollapseAll = false, onCollapseAll }) => {
     const [isOpen, setIsOpen] = useState(true);
@@ -12,7 +12,7 @@ const AccordionSection = ({ title, children, showCollapseAll = false, onCollapse
             >
                 <div className="flex items-center gap-3">
                     <div className="text-gray-400">
-                        <ChevronIcon isOpen={isOpen} />
+                        <ChevronDown size={18} style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s ease' }} />
                     </div>
                     <h3 className="text-base font-semibold text-gray-900">{title}</h3>
                 </div>

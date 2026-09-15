@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 import api from '../utils/api';
 import { GoogleLogin } from '@react-oauth/google'; 
 import AuthLayout from '../components/AuthLayout';
-import { EyeOpenIcon, EyeClosedIcon } from '../components/Icons';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -42,7 +42,7 @@ const Login = () => {
                 <div className="relative">
                     <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Password" className="auth-input pr-16" />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide Password" : "Show Password"} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors">
-                        {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                        {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                     </button>
                 </div>
 
