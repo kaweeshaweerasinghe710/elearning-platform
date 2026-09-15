@@ -20,9 +20,9 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="bg-white rounded-md p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                 Change Password
+        <div className="form-container">
+            <h3 className="form-title mb-6">
+                Change Password
             </h3>
             
             {message && (
@@ -31,30 +31,42 @@ const ChangePassword = () => {
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-1">Current Password</label>
+            <form onSubmit={handleSubmit} className="flex flex-col flex-1 space-y-4">
+                <div className="form-group">
+                    <label className="form-label">Current Password</label>
                     <input 
                         type="password" 
-                        value={formData.oldPassword} 
-                        onChange={(e) => setFormData({...formData, oldPassword: e.target.value})} 
+                        value={formData.currentPassword} 
+                        onChange={(e) => setFormData({...formData, currentPassword: e.target.value})} 
                         required 
-                        className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-black outline-none text-sm"
+                        className="form-input"
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-1">New Password</label>
+                <div className="form-group">
+                    <label className="form-label">New Password</label>
                     <input 
                         type="password" 
                         value={formData.newPassword} 
                         onChange={(e) => setFormData({...formData, newPassword: e.target.value})} 
                         required 
-                        className="w-full p-2 bg-white border border-gray-300 rounded-md focus:ring-1 focus:ring-black outline-none text-sm"
+                        className="form-input"
                     />
                 </div>
-                <button type="submit" className="w-full mt-2 bg-black hover:bg-gray-800 text-white font-medium py-2 rounded-md transition-colors text-sm">
-                    Update Password
-                </button>
+                <div className="form-group pb-4">
+                    <label className="form-label">Confirm New Password</label>
+                    <input 
+                        type="password" 
+                        value={formData.confirmPassword} 
+                        onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} 
+                        required 
+                        className="form-input"
+                    />
+                </div>
+                <div className="mt-auto pt-4">
+                    <button type="submit" className="btn-primary w-full">
+                        Update Password
+                    </button>
+                </div>
             </form>
         </div>
     );
