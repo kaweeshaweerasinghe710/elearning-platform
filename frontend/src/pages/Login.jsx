@@ -54,7 +54,7 @@ const Login = () => {
                     <span className="text-[11px] text-gray-500 hover:text-primary font-medium cursor-pointer">Forgot Password?</span>
                 </div>
 
-                <button type="submit" className="auth-btn">
+                <button type="submit" className="auth-btn w-full">
                     Sign In
                 </button>
             </form>

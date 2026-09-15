@@ -49,7 +49,7 @@ const Register = () => {
                     </button>
                 </div>
 
-                <button type="submit" className="auth-btn">
+                <button type="submit" className="auth-btn w-full">
                     Sign Up
                 </button>
             </form>

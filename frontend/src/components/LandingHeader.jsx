@@ -16,7 +16,7 @@ const LandingHeader = ({ onOpenAbout, onOpenContact, onOpenInstructors }) => {
                 <span onClick={onOpenContact} className="cursor-pointer hover:text-white transition">Contact</span>
             </div>
             
-            <Link to="/register" className="bg-white text-primary px-4 py-1.5 rounded-full font-bold shadow-md flex items-center gap-3 text-xs hover:scale-105 transition-transform">
+            <Link to="/login" className="bg-white text-primary px-4 py-1.5 rounded-full font-bold shadow-md flex items-center gap-3 text-xs hover:scale-105 transition-transform">
                 Start here
                 <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center text-white text-[10px]">✕</div>
             </Link>
