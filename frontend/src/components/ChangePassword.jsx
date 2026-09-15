@@ -2,17 +2,26 @@ import { useState } from 'react';
 import api from '../utils/api';
 
 const ChangePassword = () => {
-    const [formData, setFormData] = useState({ oldPassword: '', newPassword: '' });
+    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.newPassword !== formData.confirmPassword) {
+            setMessage("New passwords do not match!");
+            setIsSuccess(false);
+            return;
+        }
+
         try {
-            await api.put('/users/change-password', formData);
+            await api.put('/users/change-password', {
+                oldPassword: formData.currentPassword,
+                newPassword: formData.newPassword
+            });
             setMessage('Password changed successfully!');
             setIsSuccess(true);
-            setFormData({ oldPassword: '', newPassword: '' });
+            setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to change password');
             setIsSuccess(false);
