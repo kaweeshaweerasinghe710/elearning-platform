@@ -4,7 +4,13 @@ import DayTimeRow from './course-editor/DayTimeRow';
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 const TimeSlotBuilder = ({ schedule, setSchedule }) => {
-    const startDate = schedule?.startDate || '';
+    const formatStartDate = (dateStr) => {
+        if (!dateStr) return '';
+        if (dateStr.includes('T')) return dateStr.split('T')[0];
+        return dateStr;
+    };
+    
+    const startDate = formatStartDate(schedule?.startDate);
     const weeklySlots = schedule?.weeklySlots || [];
 
     const updateStartDate = (date) => {

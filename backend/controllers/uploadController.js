@@ -13,7 +13,12 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'elearning_resources',
-        resource_type: 'auto' 
+        resource_type: (req, file) => {
+            if (file.mimetype === 'application/pdf' || file.originalname.endsWith('.pdf')) {
+                return 'raw';
+            }
+            return 'auto';
+        }
     },
 });
 
