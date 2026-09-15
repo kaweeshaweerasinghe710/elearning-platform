@@ -4,6 +4,7 @@ import HeroText from '../components/HeroText';
 import HeroIllustration from '../components/HeroIllustration';
 import AboutUs from '../components/AboutUs';
 import ContactUs from '../components/ContactUs';
+import InstructorsModal from '../components/InstructorsModal';
 
 const Landing = () => {
     const [activeModal, setActiveModal] = useState(null); 
@@ -23,14 +24,16 @@ const Landing = () => {
             <LandingHeader 
                 onOpenAbout={() => setActiveModal('about')} 
                 onOpenContact={() => setActiveModal('contact')} 
+                onOpenInstructors={() => setActiveModal('instructors')}
             />
             
-            <div className="flex-1 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 max-w-7xl mx-auto w-full">
+            <div className="flex-1 flex flex-col items-center px-6 md:px-12 max-w-7xl mx-auto w-full pt-8 md:pt-12">
                 <HeroText />
                 <HeroIllustration />
             </div>
             {activeModal === 'about' && <AboutUs onClose={() => setActiveModal(null)} />}
             {activeModal === 'contact' && <ContactUs onClose={() => setActiveModal(null)} />}
+            {activeModal === 'instructors' && <InstructorsModal onClose={() => setActiveModal(null)} />}
             
         </div>
     );

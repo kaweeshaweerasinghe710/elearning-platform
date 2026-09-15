@@ -149,4 +149,13 @@ const changePassword = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, authUser, googleAuth, addInstructor, changePassword };
+const getAllInstructors = async (req, res) => {
+    try {
+        const instructors = await User.find({ role: 'instructor' }).select('-password -__v');
+        res.json(instructors);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = { registerUser, authUser, googleAuth, addInstructor, changePassword, getAllInstructors };
