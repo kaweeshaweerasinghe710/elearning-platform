@@ -1,5 +1,6 @@
 import { useCourses } from '../hooks/useCourses';
 import CourseCard from './CourseCard'; 
+import CourseChatbot from './CourseChatbot';
 
 const CourseList = () => {
     const { courses, loading, enroll } = useCourses();
@@ -37,6 +38,8 @@ const CourseList = () => {
                     ))}
                 </div>
             )}
+            
+            <CourseChatbot courses={courses} onEnroll={handleEnroll} />
         </div>
     );
 };

@@ -10,6 +10,7 @@ import InstructorCourses from '../components/InstructorCourses';
 import AddInstructor from '../components/AddInstructor';
 import ChangePassword from '../components/ChangePassword';
 
+
 const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState(user?.role === 'instructor' ? 'manage' : 'courses');
@@ -29,6 +30,7 @@ const Dashboard = () => {
                 <div>
                     {user.role === 'student' && activeTab === 'courses' && <CourseList />}
                     {user.role === 'student' && activeTab === 'enrollments' && <MyEnrollments />}
+
                     
                     {user.role === 'instructor' && activeTab === 'manage' && <InstructorCourses />}
                     {user.role === 'instructor' && activeTab === 'create' && <CreateCourse />}
