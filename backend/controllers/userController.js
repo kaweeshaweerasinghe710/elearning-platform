@@ -7,6 +7,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const registerUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
+        
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
@@ -105,7 +106,12 @@ const googleAuth = async (req, res) => {
 
 const addInstructor = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, securityCode } = req.body;
+        
+        if (securityCode !== process.env.INSTRUCTOR_SECRET) {
+            return res.status(403).json({ message: 'Invalid Admin Security Code' });
+        }
+
         const userExists = await User.findOne({ email });
         
         if (userExists) {
