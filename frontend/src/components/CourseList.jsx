@@ -1,50 +1,42 @@
-import { useState, useEffect } from 'react';
-import api from '../utils/api';
-import CourseCard from './CourseCard'; // Imported the separated component
+import { useCourses } from '../hooks/useCourses';
+import CourseCard from './CourseCard'; 
 
 const CourseList = () => {
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const { data } = await api.get('/courses');
-                setCourses(data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching courses:", error);
-                setLoading(false);
-            }
-        };
-        fetchCourses();
-    }, []);
-
+    const { courses, loading, enroll } = useCourses();
   
     const handleEnroll = async (courseId) => {
-        try {
-            await api.post('/enrollments', { courseId });
-            alert('Successfully enrolled in the course! 🎉');
-        } catch (error) {
-            alert(error.response?.data?.message || 'Failed to enroll');
+        const result = await enroll(courseId);
+        if (result.success) {
+            alert('Successfully enrolled in the course! ');
+        } else {
+            alert(result.message);
         }
     };
 
+
     if (loading) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
-    if (courses.length === 0) return <div className="text-center py-20 text-gray-500 font-bold">No courses available.</div>;
 
     return (
-        <div>
-            <h3 className="text-2xl font-black text-gray-800 tracking-tight mb-8">📚 Explore Courses</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {courses.map((course) => (
-                    <CourseCard 
-                        key={course._id} 
-                        course={course} 
-                        onEnroll={handleEnroll} 
-                    />
-                ))}
+        <div className="list-container">
+            <div className="list-header">
+                <h3 className="list-title">Explore Courses</h3>
             </div>
+            
+            {courses.length === 0 ? (
+                <div className="empty-state">
+                    No courses available at the moment.
+                </div>
+            ) : (
+                <div className="list-grid">
+                    {courses.map((course) => (
+                        <CourseCard 
+                            key={course._id} 
+                            course={course} 
+                            onEnroll={handleEnroll} 
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
