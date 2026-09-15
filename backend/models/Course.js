@@ -13,12 +13,34 @@ const courseSchema = new mongoose.Schema({
         type: String, 
         required: false 
     },
-    modules: [{
+    schedule: {
+        startDate: { type: Date },
+        weeklySlots: [{
+            day: { type: String, enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] },
+            startTime: { type: String },
+            endTime: { type: String }
+        }]
+    },
+    weeks: [{
         title: { type: String, required: true },
-        items: [{
-            title: { type: String, required: true },
-            itemType: { type: String, enum: ['pdf', 'video', 'link'], required: true },
-            url: { type: String, required: true }
+        announcement: { type: String },
+        classLinks: [{
+            title: { type: String },
+            url: { type: String },
+            date: { type: Date }
+        }],
+        resources: [{
+            title: { type: String },
+            resourceType: { type: String },
+            url: { type: String }
+        }]
+    }],
+    quizzes: [{
+        title: { type: String, required: true },
+        questions: [{
+            question: { type: String, required: true },
+            options: [{ type: String }],
+            correctAnswer: { type: Number, required: true }
         }]
     }],
     instructor: { 
