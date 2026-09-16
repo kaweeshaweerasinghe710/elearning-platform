@@ -17,13 +17,12 @@ const ResourceRow = ({ resource, onUpdate, onRemove }) => {
             const { data } = await api.post('/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            onUpdate('url', data.url);
             
-            setTimeout(() => {
-                if (file.type.startsWith('video/')) onUpdate('resourceType', 'video');
-                else if (file.type === 'application/pdf') onUpdate('resourceType', 'pdf');
-                else onUpdate('resourceType', 'file');
-            }, 100);
+            let resType = 'file';
+            if (file.type.startsWith('video/')) resType = 'video';
+            else if (file.type === 'application/pdf') resType = 'pdf';
+            
+            onUpdate({ url: data.url, resourceType: resType });
         } catch (error) {
             console.error("Upload failed", error);
             alert("Upload failed");

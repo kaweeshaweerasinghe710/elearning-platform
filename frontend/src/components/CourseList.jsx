@@ -9,14 +9,16 @@ const CourseList = () => {
     const { courses, loading: coursesLoading, enroll, page, setPage, totalPages } = useCourses();
     const { enrollments } = useEnrollments();
     const [showAdvisor, setShowAdvisor] = useState(false);
+    const [enrollMessage, setEnrollMessage] = useState(null);
   
     const handleEnroll = async (courseId) => {
         const result = await enroll(courseId);
         if (result.success) {
-            alert('Successfully enrolled in the course! ');
-            window.location.reload(); 
+            setEnrollMessage({ type: 'success', text: 'Successfully enrolled in the course! 🎉' });
+            setTimeout(() => window.location.reload(), 1500); 
         } else {
-            alert(result.message);
+            setEnrollMessage({ type: 'error', text: result.message });
+            setTimeout(() => setEnrollMessage(null), 3000);
         }
     };
 
@@ -29,6 +31,11 @@ const CourseList = () => {
     return (
         <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
             <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
+                {enrollMessage && (
+                    <div className={`mb-6 p-4 rounded-xl shadow-sm border font-semibold ${enrollMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                        {enrollMessage.text}
+                    </div>
+                )}
                 <div className="list-header flex justify-end items-center mb-6">
                    
                     {!showAdvisor && (

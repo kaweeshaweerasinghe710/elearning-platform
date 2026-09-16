@@ -42,12 +42,12 @@
            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
   }
   .btn-primary, .auth-btn {
-    @apply btn bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm hover:shadow-md active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm hover:shadow-md active:scale-[0.98];
   }
-  .btn-secondary  { @apply btn bg-white text-slate-700 border border-border hover:bg-slate-50 shadow-sm; }
-  .btn-destructive { @apply btn bg-destructive text-destructive-foreground hover:bg-red-700; }
+  .btn-secondary  { @apply inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-white text-slate-700 border border-border hover:bg-slate-50 shadow-sm; }
+  .btn-destructive { @apply inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-destructive text-destructive-foreground hover:bg-red-700; }
   .btn-outline, .ce-add-btn, .ic-add-btn {
-    @apply btn bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20;
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl px-5 py-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20;
   }
   .btn-icon, .ce-remove-btn, .ic-remove-btn, .time-slot-remove-btn {
     @apply p-2 flex items-center justify-center rounded-lg text-slate-400
