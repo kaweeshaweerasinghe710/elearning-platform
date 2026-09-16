@@ -39,8 +39,9 @@ const CreateCourse = () => {
             </div>
             
             {message && (
-                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-xl border font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 ${isSuccess ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                   {message}
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-lg font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                   
+                   <span className="drop-shadow-md bg-white/50 px-2 py-1 rounded backdrop-blur-sm">{message}</span>
                 </div>
             )}
 

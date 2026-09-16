@@ -12,12 +12,14 @@ const ChangePassword = () => {
         if (formData.newPassword.length < 6) {
             setMessage("New password must be at least 6 characters long");
             setIsSuccess(false);
+            setTimeout(() => setMessage(''), 3000);
             return;
         }
 
         if (formData.newPassword !== formData.confirmPassword) {
             setMessage("New passwords do not match!");
             setIsSuccess(false);
+            setTimeout(() => setMessage(''), 3000);
             return;
         }
 
@@ -29,21 +31,27 @@ const ChangePassword = () => {
             setMessage('Password changed successfully!');
             setIsSuccess(true);
             setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+            setTimeout(() => {
+                setMessage('');
+                setIsSuccess(false);
+            }, 3000);
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to change password');
             setIsSuccess(false);
+            setTimeout(() => setMessage(''), 3000);
         }
     };
 
     return (
-        <div className="form-container">
+        <div className="form-container relative">
             <h3 className="form-title mb-6">
                 Change Password
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                    {message}
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-lg font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                   <span className="text-xl drop-shadow-sm">{isSuccess ? '✅' : '❌'}</span> 
+                   <span className="drop-shadow-md bg-white/50 px-2 py-1 rounded backdrop-blur-sm">{message}</span>
                 </div>
             )}
 
