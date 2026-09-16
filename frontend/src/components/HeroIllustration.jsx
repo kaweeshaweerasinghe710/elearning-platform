@@ -22,10 +22,10 @@ const HeroIllustration = () => {
             
             <div className="absolute right-2 lg:right-10 bottom-[25%] md:bottom-[35%] bg-white p-4 md:p-5 rounded-[20px] shadow-[0_20px_40px_rgba(0,0,0,0.15)] w-[170px] md:w-[220px] text-left z-20 animate-float float-delay-2 hover:scale-110 hover:-translate-y-4 hover:shadow-[0_30px_60px_rgba(0,0,0,0.3)] transition-all duration-500 cursor-default">
                 <div className="flex -space-x-3 mb-3 md:mb-4">
-                    <img src="https://i.pravatar.cc/100?img=1" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                    <img src="https://i.pravatar.cc/100?img=2" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                    <img src="https://i.pravatar.cc/100?img=3" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
-                    <img src="https://i.pravatar.cc/100?img=4" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
+                    <img src="" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
+                    <img src="" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
+                    <img src="" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
+                    <img src="" className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-sm"/>
                 </div>
                 <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-1">60k+</h3>
                 <p className="text-[10px] md:text-[11px] text-gray-600 font-medium leading-relaxed">

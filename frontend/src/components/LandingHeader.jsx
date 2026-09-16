@@ -10,10 +10,10 @@ const LandingHeader = ({ onOpenAbout, onOpenContact, onOpenInstructors }) => {
                 Learnify
             </div>
             
-            <div className="hidden lg:flex gap-7 text-white/90 text-xs font-medium tracking-wide">
-                <span onClick={onOpenInstructors} className="cursor-pointer hover:text-white transition">Instructors</span>
-                <span onClick={onOpenAbout} className="cursor-pointer hover:text-white transition">About Us</span>
-                <span onClick={onOpenContact} className="cursor-pointer hover:text-white transition">Contact</span>
+            <div className="hidden lg:flex gap-7 text-white text-xs font-bold tracking-wide">
+                <span onClick={onOpenInstructors} className="cursor-pointer hover:text-white/70 transition">Instructors</span>
+                <span onClick={onOpenAbout} className="cursor-pointer hover:text-white/70 transition">About Us</span>
+                <span onClick={onOpenContact} className="cursor-pointer hover:text-white/70 transition">Contact</span>
             </div>
             
             <Link to="/login" className="bg-white text-primary px-5 py-2 rounded-full font-bold text-xs hover:scale-105 hover:shadow-lg transition-all duration-300 shadow-md">
