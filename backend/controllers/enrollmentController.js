@@ -3,16 +3,33 @@ const User = require('../models/User');
 
 const getMyEnrollments = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).populate('enrolledCourses');
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const user = await User.findById(req.user._id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        
+        const total = user.enrolledCourses ? user.enrolledCourses.length : 0;
+        
+        await user.populate({
+            path: 'enrolledCourses',
+            options: { skip: skip, limit: limit }
+        });
+
         const formattedEnrollments = (user.enrolledCourses || []).map(course => ({
             _id: course._id, 
             course: course
         }));
 
-        res.status(200).json(formattedEnrollments);
+        res.status(200).json({ 
+            enrollments: formattedEnrollments, 
+            total, 
+            page, 
+            pages: Math.ceil(total / limit) 
+        });
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch enrollments', error: error.message });
     }

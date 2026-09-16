@@ -4,12 +4,18 @@ import api from '../utils/api';
 export const useInstructorCourses = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalCourses, setTotalCourses] = useState(0);
 
     useEffect(() => {
         const fetchMyCourses = async () => {
+            setLoading(true);
             try {
-                const { data } = await api.get('/courses/instructor/my-courses');
-                setCourses(data);
+                const { data } = await api.get(`/courses/instructor/my-courses?page=${page}&limit=5`);
+                setCourses(data.courses || []);
+                setTotalPages(data.pages || 1);
+                setTotalCourses(data.total || 0);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching courses', error);
@@ -17,7 +23,7 @@ export const useInstructorCourses = () => {
             }
         };
         fetchMyCourses();
-    }, []);
+    }, [page]);
 
     const handleDelete = async (courseId) => {
         if (window.confirm("Are you sure you want to delete this course?")) {
@@ -37,5 +43,5 @@ export const useInstructorCourses = () => {
         setCourses(courses.map(c => c._id === updatedCourse._id ? updatedCourse : c));
     };
 
-    return { courses, loading, handleDelete, handleUpdate };
+    return { courses, loading, handleDelete, handleUpdate, page, setPage, totalPages, totalCourses };
 };

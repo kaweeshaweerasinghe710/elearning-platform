@@ -22,8 +22,17 @@ const createCourse = async (req, res) => {
 
 const getCourses = async (req, res) => {
     try {
-        const courses = await Course.find({}).populate('instructor', 'name email');
-        res.json(courses);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const total = await Course.countDocuments({});
+        const courses = await Course.find({})
+            .populate('instructor', 'name email')
+            .skip(skip)
+            .limit(limit);
+
+        res.json({ courses, total, page, pages: Math.ceil(total / limit) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -33,8 +42,16 @@ const getCourses = async (req, res) => {
 
 const getInstructorCourses = async (req, res) => {
     try {
-        const courses = await Course.find({ instructor: req.user._id });
-        res.json(courses);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const total = await Course.countDocuments({ instructor: req.user._id });
+        const courses = await Course.find({ instructor: req.user._id })
+            .skip(skip)
+            .limit(limit);
+
+        res.json({ courses, total, page, pages: Math.ceil(total / limit) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
