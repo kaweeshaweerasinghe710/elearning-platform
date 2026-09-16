@@ -49,9 +49,8 @@ const ChangePassword = () => {
             </h3>
             
             {message && (
-                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-lg font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
-                   <span className="text-xl drop-shadow-sm">{isSuccess ? '✅' : '❌'}</span> 
-                   <span className="drop-shadow-md bg-white/50 px-2 py-1 rounded backdrop-blur-sm">{message}</span>
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                   {message}
                 </div>
             )}
 

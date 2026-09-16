@@ -36,9 +36,8 @@ const CourseList = () => {
         <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
             <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
                 {enrollMessage && (
-                    <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-lg font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 ${enrollMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
-                       <span className="text-xl drop-shadow-sm">{enrollMessage.type === 'success' ? '✅' : '❌'}</span> 
-                       <span className="drop-shadow-md bg-white/50 px-2 py-1 rounded backdrop-blur-sm">{enrollMessage.text}</span>
+                    <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${enrollMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                       {enrollMessage.text}
                     </div>
                 )}
                 <div className="list-header flex justify-end items-center mb-6">
