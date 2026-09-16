@@ -48,14 +48,14 @@ const CourseAdvisor = ({ onEnroll }) => {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-blue-100 overflow-hidden sticky top-6 flex flex-col h-[600px]">
-            <div className="bg-blue-400 p-4 text-white">
+        <div className="glass rounded-xl overflow-hidden sticky top-6 flex flex-col h-[600px] border-border shadow-sm">
+            <div className="gradient-primary p-4 border-b border-white/20">
                 <div className="flex items-center gap-2">
-                    <h3 className="font-bold text-lg"> Course Advisor</h3>
+                    <h3 className="font-bold text-lg text-white"> Course Advisor</h3>
                 </div>
             </div>
             
-            <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50">
+            <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-background/50">
                 {messages.map(m => (
                     <div key={m.id} className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}>
                         <div className={`p-3 max-w-[90%] text-sm whitespace-pre-wrap ${m.sender === 'user' ? 'bg-blue-500 text-white rounded-2xl rounded-br-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-2xl rounded-bl-sm shadow-sm'}`}>

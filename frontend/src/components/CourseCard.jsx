@@ -34,7 +34,7 @@ const CourseCard = ({ course, onEnroll, isEnrolled }) => {
             </div>
             
             <div className="ic-card-content flex flex-col p-4 bg-white relative">
-                <h4 className="text-[14px] font-medium text-[#1e1b4b] leading-snug mb-3">
+                <h4 className="text-[14px] font-medium text-foreground leading-snug mb-3">
                     {course.title}
                 </h4>
                 
@@ -53,7 +53,7 @@ const CourseCard = ({ course, onEnroll, isEnrolled }) => {
                 
                 <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold shrink-0">
                             {course.instructor?.name?.charAt(0) || 'I'}
                         </div>
                         <span className="text-xs font-semibold text-slate-500 truncate max-w-[100px]">

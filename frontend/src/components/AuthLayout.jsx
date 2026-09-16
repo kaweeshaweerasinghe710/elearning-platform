@@ -2,19 +2,19 @@ import { Link } from 'react-router-dom';
 
 const AuthLayout = ({ title, subtitle, description, children }) => {
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-[#2a75d3] to-primary-hover flex items-center justify-center p-6 font-sans">
+        <div className="min-h-screen w-full gradient-primary flex items-center justify-center p-6 font-sans">
             <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
                 <div className="w-full lg:w-1/2 text-white px-4 md:px-10 text-center lg:text-left mt-10 lg:mt-0">
                     <Link to="/" className="inline-block mb-12 opacity-60 hover:opacity-100 transition text-sm font-medium tracking-wide">
                         ← BACK TO HOME
                     </Link>
-                    <h1 className="text-5xl md:text-6xl font-black tracking-wider mb-4 uppercase">
+                    <h1 className="text-5xl md:text-6xl font-black tracking-wider mb-4 uppercase text-white drop-shadow-md">
                         {title}
                     </h1>
-                    <h2 className="text-lg md:text-xl font-bold tracking-widest mb-6 uppercase text-blue-200">
+                    <h2 className="text-lg md:text-xl font-bold tracking-widest mb-6 uppercase text-white/80">
                         {subtitle}
                     </h2>
-                    <p className="text-sm md:text-sm text-blue-100/80 leading-relaxed max-w-md mx-auto lg:mx-0 font-light">
+                    <p className="text-sm md:text-sm text-white/70 leading-relaxed max-w-md mx-auto lg:mx-0 font-light">
                         {description}
                     </p>
                 </div>

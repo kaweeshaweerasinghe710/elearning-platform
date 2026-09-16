@@ -1,7 +1,9 @@
 @layer components {
 
   .nav-wrapper {
-    @apply sticky top-6 z-50 max-w-5xl mx-auto w-[95%] glass rounded-full mb-8 transition-all;
+    @apply sticky top-6 z-50 max-w-5xl mx-auto w-[95%] rounded-full mb-8 transition-all
+           bg-white/70 backdrop-blur-xl border border-white/40;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   }
   .nav-bar     { @apply px-3 sm:px-6 h-16 flex items-center justify-between; }
   .nav-logo-box {
@@ -74,8 +76,8 @@
   }
   .form-actions { @apply mt-8 pt-6 border-t border-border; }
   .auth-input {
-    @apply w-full p-4 bg-transparent border border-border rounded-2xl
-           focus:outline-none focus:border-primary text-sm text-foreground
+    @apply w-full p-4 bg-slate-50 border border-border rounded-2xl
+           focus:outline-none focus:border-primary focus:bg-white text-sm text-foreground
            placeholder:text-muted-foreground transition-colors;
   }
 

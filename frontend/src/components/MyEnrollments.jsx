@@ -51,7 +51,7 @@ const MyEnrollments = () => {
                                 </div>
                                 
                                 <div className="ic-card-content flex flex-col p-4 bg-white relative h-full">
-                                    <h4 className="text-[14px] font-medium text-[#1e1b4b] leading-snug mb-3">
+                                    <h4 className="text-[14px] font-medium text-foreground leading-snug mb-3">
                                         {enrollment.course?.title}
                                     </h4>
                                     
@@ -59,7 +59,7 @@ const MyEnrollments = () => {
                                         {enrollment.course?.description}
                                     </p>
                                     
-                                    <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-sm font-semibold text-indigo-600 group-hover:text-indigo-800 transition-colors">
+                                    <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-sm font-semibold text-primary group-hover:text-primary-hover transition-colors">
                                         <span>Continue Learning</span>
                                         <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
                                     </div>
