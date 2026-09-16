@@ -69,15 +69,21 @@ Instructions:
 
     const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
     const lowerPrompt = lastUserMessage.toLowerCase();
-    let fallbackMatches = availableCourses.filter(course => 
-        (course.title && course.title.toLowerCase().includes(lowerPrompt)) || 
-        (course.description && course.description.toLowerCase().includes(lowerPrompt))
-    );
+    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 3 && !['want', 'this', 'that', 'what', 'should', 'would', 'could'].includes(w));
+    
+    let fallbackMatches = [];
+    if (keywords.length > 0) {
+        fallbackMatches = availableCourses.filter(course => {
+            const title = (course.title || "").toLowerCase();
+            const desc = (course.description || "").toLowerCase();
+            return keywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
+        });
+    }
 
     return {
         message: fallbackMatches.length > 0 
-            ? "I couldn't reach my AI brain, but here are some courses that match your keywords:"
-            : "I couldn't reach my AI brain, and I couldn't find any courses matching those exact keywords.",
+            ? "Here are some courses that match the keywords in your request:"
+            : "I couldn't find any courses matching those exact keywords.",
         courses: fallbackMatches.slice(0, 3)
     };
 };
