@@ -26,4 +26,4 @@ jobs:
             
             cd ../backend
             npm install
-            pm2 restart server.js
+            pm2 restart learnify-backend

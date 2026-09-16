@@ -27,7 +27,7 @@ app.use('/api/chat', chatRoutes);
 const _dirname = path.resolve();
 app.use(express.static(path.join(_dirname, '../frontend/dist')));
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.resolve(_dirname, '../frontend/dist/index.html'));
 });
 
