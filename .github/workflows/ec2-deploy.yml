@@ -1,0 +1,29 @@
+name: Deploy Fullstack to EC2
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: SSH and Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/elearning-platform
+            git pull origin develop
+            
+            cd frontend
+            npm install
+            npm run build
+            
+            cd ../backend
+            npm install
+            pm2 restart server.js
