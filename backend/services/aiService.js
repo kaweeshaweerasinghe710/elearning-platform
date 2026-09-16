@@ -8,11 +8,11 @@ Available courses (JSON):
 ${JSON.stringify(availableCourses.map(c => ({ id: c._id, title: c.title, description: c.description })))}
 Instructions:
 1. If the student's request is vague or unclear, ask a clarifying question to understand what they want to learn.
-2. If the student's request is clear and specific, recommend up to 3 matching courses and provide a short, friendly explanation.
-3. Use line breaks (\\n) to clearly separate your points in the message.
+2. If the student asks for a topic or skill, find the most suitable courses from the JSON list provided and return their IDs in the \`courseIds\` array (max 3).
+3. In your \`message\`, you MUST provide a short, friendly explanation of WHY these specific courses match their request. Do not just list the course names in the message.
 4. ALWAYS return ONLY a valid JSON object matching this structure exactly (no markdown formatting, just raw JSON):
 {
-    "message": "Your clear message with \\n line breaks here. (Either a clarifying question or the recommendation explanation).",
+    "message": "Your explanation of why these courses are suitable (or your clarifying question).\\nUse line breaks if needed.",
     "courseIds": ["id1", "id2"] // Leave this array empty if you are just asking a clarifying question.
 }
 `;
@@ -39,17 +39,25 @@ Instructions:
 
             if (response.ok) {
                 const data = await response.json();
-                const content = data.choices[0].message.content;
-                const parsed = JSON.parse(content);
+                let content = data.choices[0].message.content;
                 
-                const recommendedCourses = parsed.courseIds
-                    .map(id => availableCourses.find(c => c._id.toString() === id))
-                    .filter(Boolean);
+                // Try to parse, stripping markdown if necessary
+                content = content.replace(/```json/gi, '').replace(/```/g, '').trim();
+                
+                try {
+                    const parsed = JSON.parse(content);
+                    
+                    const recommendedCourses = parsed.courseIds
+                        .map(id => availableCourses.find(c => c._id.toString() === id))
+                        .filter(Boolean);
 
-                return {
-                    message: parsed.message,
-                    courses: recommendedCourses
-                };
+                    return {
+                        message: parsed.message,
+                        courses: recommendedCourses
+                    };
+                } catch (parseError) {
+                    console.error("Failed to parse AI JSON response:", content);
+                }
             } else {
                 console.error("OpenAI API error:", await response.text());
             }
@@ -66,14 +74,10 @@ Instructions:
         (course.description && course.description.toLowerCase().includes(lowerPrompt))
     );
 
-    if (fallbackMatches.length === 0 && availableCourses.length > 0) {
-        fallbackMatches = availableCourses.slice(0, 2);
-    }
-
     return {
         message: fallbackMatches.length > 0 
-            ? "Here are the best courses I found for you based on your request:"
-            : "I couldn't find exact matches for that topic, but here are some suggestions:",
+            ? "I couldn't reach my AI brain, but here are some courses that match your keywords:"
+            : "I couldn't reach my AI brain, and I couldn't find any courses matching those exact keywords.",
         courses: fallbackMatches.slice(0, 3)
     };
 };
