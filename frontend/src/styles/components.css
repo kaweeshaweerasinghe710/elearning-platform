@@ -1,0 +1,180 @@
+@layer components {
+
+  .nav-wrapper {
+    @apply sticky top-6 z-50 max-w-5xl mx-auto w-[95%] glass rounded-full mb-8 transition-all;
+  }
+  .nav-bar     { @apply px-3 sm:px-6 h-16 flex items-center justify-between; }
+  .nav-logo-box {
+    @apply w-10 h-10 bg-gradient-to-tr from-primary to-accent rounded-full
+           flex items-center justify-center text-white font-black text-xl
+           shadow-[0_4px_10px_rgba(0,0,0,0.1)];
+  }
+  .nav-link-base    { @apply flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 cursor-pointer; }
+  .nav-link-active  { @apply bg-white shadow-sm border border-slate-100 text-primary; }
+  .nav-link-inactive { @apply text-slate-500 hover:bg-white/50 hover:text-slate-800 border border-transparent; }
+  .nav-avatar {
+    @apply w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-accent
+           text-white flex items-center justify-center font-bold text-sm
+           uppercase shadow-sm border-2 border-white;
+  }
+
+ 
+  .dashboard-layout { @apply min-h-screen bg-slate-50 flex flex-col; }
+  .dashboard-main   { @apply flex-1 w-full px-4 sm:px-6 lg:px-8 py-8; }
+
+  .section-card   { @apply bg-white rounded-2xl shadow-sm border border-border p-6; }
+  .section-header { @apply flex items-center justify-between mb-6 pb-4 border-b border-border; }
+  .section-title  { @apply text-xl font-bold text-foreground; }
+
+  .list-container { @apply bg-white rounded-xl shadow-sm border border-border p-6; }
+  .list-header    { @apply flex items-center justify-between mb-6 pb-4 border-b border-border; }
+  .list-title     { @apply text-xl font-bold text-foreground; }
+  .empty-state    { @apply text-center py-16 text-muted-foreground font-medium bg-slate-50 rounded-lg border border-dashed border-border; }
+  .list-grid      { @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start; }
+
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold text-sm rounded-xl
+           px-5 py-2.5 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+  }
+  .btn-primary, .auth-btn {
+    @apply btn bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+  .btn-secondary  { @apply btn bg-white text-slate-700 border border-border hover:bg-slate-50 shadow-sm; }
+  .btn-destructive { @apply btn bg-destructive text-destructive-foreground hover:bg-red-700; }
+  .btn-outline, .ce-add-btn, .ic-add-btn {
+    @apply btn bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20;
+  }
+  .btn-icon, .ce-remove-btn, .ic-remove-btn, .time-slot-remove-btn {
+    @apply p-2 flex items-center justify-center rounded-lg text-slate-400
+           hover:text-destructive hover:bg-destructive/10 transition-all duration-200
+           cursor-pointer flex-shrink-0;
+  }
+  .ic-banner-btn {
+    @apply p-2 flex items-center justify-center rounded-lg bg-white/20 backdrop-blur
+           shadow-sm text-white transition-all duration-200 cursor-pointer
+           border border-white/20 hover:scale-105;
+  }
+  .ic-banner-edit   { @apply hover:bg-primary hover:border-primary-hover; }
+  .ic-banner-delete { @apply hover:bg-destructive hover:border-red-500; }
+
+  
+  .form-container { @apply flex flex-col h-full bg-white rounded-2xl shadow-sm border border-border p-6 lg:p-8 w-full; }
+  .form-header    { @apply mb-8; }
+  .form-title     { @apply text-xl lg:text-2xl font-bold text-foreground mb-6; }
+  .form-subtitle  { @apply text-sm text-muted-foreground; }
+  .form-group     { @apply mb-5; }
+  .form-label     { @apply block text-sm font-semibold text-foreground mb-2; }
+  .form-input {
+    @apply w-full px-4 py-3 bg-slate-50/50 border border-border rounded-xl
+           focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
+           transition-all text-sm placeholder:text-muted-foreground;
+  }
+  .form-actions { @apply mt-8 pt-6 border-t border-border; }
+  .auth-input {
+    @apply w-full p-4 bg-transparent border border-border rounded-2xl
+           focus:outline-none focus:border-primary text-sm text-foreground
+           placeholder:text-muted-foreground transition-colors;
+  }
+
+
+  .ce-container    { @apply min-h-screen bg-slate-50; }
+  .ce-topbar {
+    @apply sticky top-0 z-50 flex items-center justify-between px-6 py-4
+           bg-white/80 backdrop-blur-md border-b border-border shadow-sm;
+  }
+  .ce-back-btn     { @apply flex items-center gap-2 text-muted-foreground hover:text-foreground font-semibold transition-colors; }
+  .ce-section      { @apply mb-6 bg-white rounded-2xl border border-border shadow-sm overflow-hidden; }
+  .ce-section-header {
+    @apply w-full flex items-center justify-between p-5
+           bg-gradient-to-r from-slate-50 to-white hover:bg-slate-50
+           transition-colors cursor-pointer text-left border-b border-transparent;
+  }
+  .ce-section-body { @apply p-6 border-t border-border; }
+  .ce-row          { @apply flex flex-col md:flex-row items-center gap-3 p-3 bg-slate-50 rounded-xl border border-border; }
+  .ce-type-select  { @apply w-full md:w-32 py-2.5 px-3 text-sm font-semibold; }
+  .ce-date-input   { @apply w-full md:w-48 py-2.5 px-3 text-sm; }
+  .ce-bottom-bar {
+    @apply mt-8 sticky bottom-0 z-40 flex items-center justify-end gap-3 px-6 py-5
+           bg-white/80 backdrop-blur-md border-t border-border
+           shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)];
+  }
+
+  
+  .time-slot-builder        { @apply border border-border rounded-xl bg-white overflow-hidden; }
+  .time-slot-builder-header { @apply flex items-center justify-between p-6 bg-gradient-to-r from-slate-50 to-primary/5 border-b border-border; }
+  .time-slot-list           { @apply p-6 space-y-6; }
+  .time-slot-label          { @apply text-xs font-semibold text-muted-foreground tracking-wide; }
+  .time-slot-input          { @apply py-2.5 px-3 text-sm bg-white; }
+  .time-slot-empty          { @apply text-center py-12 bg-gradient-to-b from-slate-50 to-white border border-dashed border-border rounded-xl; }
+  .time-slot-empty-icon     { @apply text-4xl mb-3; }
+
+  .day-toggle-grid     { @apply flex flex-wrap gap-2; }
+  .day-toggle          { @apply flex flex-col items-center gap-1 px-3 py-2.5 rounded-xl border-2 text-xs font-bold transition-all duration-200 cursor-pointer select-none min-w-[60px]; }
+  .day-toggle-active   { @apply border-primary bg-primary/10 text-primary shadow-sm shadow-primary/20; }
+  .day-toggle-inactive { @apply border-border bg-white text-muted-foreground hover:border-slate-300 hover:bg-slate-50; }
+  .day-toggle-label    { @apply text-[11px] font-bold tracking-wide; }
+
+  .day-time-row    { @apply flex items-center gap-4 p-4 bg-slate-50/80 border border-border rounded-xl transition-all duration-200 hover:border-primary/30 hover:bg-white; }
+  .day-time-badge  { @apply flex items-center gap-2 min-w-[110px]; }
+  .day-time-inputs { @apply flex items-end gap-3 flex-1; }
+  .day-time-field  { @apply flex flex-col gap-1.5; }
+
+  .schedule-start-date    { @apply p-4 bg-primary/5 border border-primary/10 rounded-xl; }
+  .schedule-day-selector  { @apply p-4 bg-white border border-border rounded-xl; }
+  .schedule-times-section { @apply p-4 bg-white border border-border rounded-xl; }
+
+  
+  .ic-card {
+    @apply flex flex-col bg-white rounded-xl border border-border overflow-hidden
+           shadow-sm hover:shadow-md transition-all duration-300 relative h-full;
+  }
+  .ic-card-banner  { @apply relative h-36 w-full flex-shrink-0 overflow-hidden rounded-t-xl; }
+  .ic-card-pattern {
+    @apply absolute inset-0 opacity-30 mix-blend-overlay;
+    background-image:
+      repeating-linear-gradient(45deg,  transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px),
+      repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.05)       10px, rgba(0,0,0,0.05)       20px);
+  }
+  .ic-card-category { @apply bg-black/60 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded inline-block shadow-sm; }
+  .ic-card-content  { @apply flex flex-col flex-1 p-4; }
+  .ic-card-title    { @apply text-[15px] font-semibold text-foreground line-clamp-2 leading-snug flex-1; }
+
+  .ic-card-bg-0 { @apply from-primary to-accent; }
+  .ic-card-bg-1 { @apply from-slate-600 to-slate-400; }
+  .ic-card-bg-2 { @apply from-cyan-500 to-teal-400; }
+  .ic-card-bg-3 { @apply from-indigo-600 to-purple-500; }
+  .ic-card-bg-4 { @apply from-emerald-500 to-green-400; }
+  .ic-card-bg-5 { @apply from-rose-500 to-pink-400; }
+
+ 
+  .students-panel { @apply p-5 bg-slate-50 border-t border-border relative max-h-64 overflow-y-auto; }
+  .student-item   { @apply flex items-center justify-between p-3 mb-2 bg-white rounded-xl border border-border shadow-sm transition-all hover:border-primary/30 hover:shadow-md; }
+  .student-item:last-child { @apply mb-0; }
+
+  .ic-edit-body           { @apply p-5 space-y-4; }
+  .ic-edit-section        { @apply border border-border rounded-xl overflow-hidden; }
+  .ic-edit-section-header { @apply w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer text-left; }
+  .ic-edit-section-body   { @apply p-4 border-t border-border; }
+
+  .ic-resource-row         { @apply flex items-center gap-2 p-3 bg-slate-50 rounded-lg border border-border; }
+  .ic-resource-type-select { @apply w-24 py-2 px-2 text-xs font-semibold; }
+  .ic-date-input           { @apply w-40 py-2 px-2 text-sm; }
+
+
+  .ic-quiz-card      { @apply p-4 bg-slate-50 rounded-xl border border-border; }
+  .ic-quiz-question  { @apply p-3 bg-white rounded-lg border border-border; }
+  .ic-question-badge { @apply w-7 h-7 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0; }
+  .ic-options-grid   { @apply grid grid-cols-2 gap-2 pl-9; }
+  .ic-option-row     { @apply flex items-center gap-2; }
+  .ic-option-radio   { @apply w-4 h-4 accent-primary cursor-pointer flex-shrink-0; }
+  .ic-option-correct { @apply ring-2 ring-success/30 border-success/50 bg-success/5; }
+
+
+  .accordion-section { @apply bg-white rounded-xl border border-border shadow-sm overflow-hidden mb-4; }
+  .accordion-header  { @apply w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors cursor-pointer text-left; }
+  .accordion-title   { @apply text-sm font-bold text-foreground; }
+  .accordion-body    { @apply px-5 pb-5 pt-2; }
+}
