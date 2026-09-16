@@ -8,7 +8,7 @@ const InstructorCourses = () => {
     const { courses, loading, handleDelete, handleUpdate, page, setPage, totalPages, totalCourses } = useInstructorCourses();
     const [editingCourse, setEditingCourse] = useState(null);
 
-    if (loading) return <div className="text-center py-20 text-gray-500 font-medium">Loading courses...</div>;
+    if (loading && courses.length === 0) return <div className="text-center py-20 text-slate-500 font-medium">Loading your courses...</div>;
     if (editingCourse) {
         return (
             <CourseEditor

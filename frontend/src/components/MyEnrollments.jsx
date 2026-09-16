@@ -18,7 +18,7 @@ const MyEnrollments = () => {
     const [selectedCourse, setSelectedCourse] = useState(null);
 
 
-    if (loading) return <div className="text-center py-20 text-gray-500 font-medium text-sm">Loading your enrollments...</div>;
+    if (loading && enrollments.length === 0) return <div className="text-center py-20 text-gray-500 font-medium text-sm">Loading your enrollments...</div>;
     
     if (selectedCourse) {
         return <EnrolledCourseDetail course={selectedCourse} onBack={() => setSelectedCourse(null)} />;

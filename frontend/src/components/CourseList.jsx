@@ -22,7 +22,7 @@ const CourseList = () => {
         }
     };
 
-    if (coursesLoading) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
+    if (coursesLoading && courses.length === 0) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
 
     const getIsEnrolled = (courseId) => {
         return enrollments.some(enrollment => enrollment.course?._id === courseId);
