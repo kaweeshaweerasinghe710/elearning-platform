@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const AccordionSection = ({ title, children, showCollapseAll = false, onCollapseAll }) => {
-    const [isOpen, setIsOpen] = useState(true);
+const AccordionSection = ({ title, children, showCollapseAll = false, onCollapseAll, defaultOpen = true }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
 
     return (
         <div className="border border-gray-200 rounded-md mb-4 bg-white">
