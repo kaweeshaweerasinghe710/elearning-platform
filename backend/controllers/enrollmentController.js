@@ -81,4 +81,31 @@ const getEnrolledStudents = async (req, res) => {
     }
 };
 
-module.exports = { getMyEnrollments, enrollCourse, getEnrolledStudents };
+const unenrollCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const userId = req.user._id;
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (!user.enrolledCourses || !user.enrolledCourses.includes(courseId)) {
+            return res.status(400).json({ message: 'You are not enrolled in this course.' });
+        }
+
+        user.enrolledCourses = user.enrolledCourses.filter(
+            id => id.toString() !== courseId.toString()
+        );
+        await user.save();
+
+        res.status(200).json({ message: 'Successfully unenrolled from the course!' });
+    } catch (error) {
+        console.error("Unenrollment Error:", error);
+        res.status(500).json({ message: 'Unenrollment failed', error: error.message });
+    }
+};
+
+module.exports = { getMyEnrollments, enrollCourse, getEnrolledStudents, unenrollCourse };

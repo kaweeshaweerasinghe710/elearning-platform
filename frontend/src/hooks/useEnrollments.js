@@ -23,5 +23,15 @@ export const useEnrollments = () => {
         fetchMyEnrollments();
     }, [page]);
 
-    return { enrollments, loading, page, setPage, totalPages };
+    const unenroll = async (courseId) => {
+        try {
+            await api.delete(`/enrollments/${courseId}`);
+            setEnrollments(prev => prev.filter(e => e.course._id !== courseId));
+            return { success: true };
+        } catch (error) {
+            return { success: false, message: error.response?.data?.message || 'Failed to unenroll' };
+        }
+    };
+
+    return { enrollments, loading, page, setPage, totalPages, unenroll };
 };

@@ -14,7 +14,7 @@ const getBgClass = (id = '') => {
 };
 
 const MyEnrollments = () => {
-    const { enrollments, loading, page, setPage, totalPages } = useEnrollments();
+    const { enrollments, loading, page, setPage, totalPages, unenroll } = useEnrollments();
     const [selectedCourse, setSelectedCourse] = useState(null);
 
 
@@ -59,9 +59,19 @@ const MyEnrollments = () => {
                                         {enrollment.course?.description}
                                     </p>
                                     
-                                    <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-sm font-semibold text-primary group-hover:text-primary-hover transition-colors">
-                                        <span>Continue Learning</span>
-                                        <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
+                                    <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-sm font-semibold group-hover:text-primary-hover transition-colors">
+                                        <span className="text-primary flex items-center gap-1">Continue <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span></span>
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if(window.confirm('Are you sure you want to un-enroll from this course?')) {
+                                                    unenroll(enrollment.course?._id);
+                                                }
+                                            }}
+                                            className="text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded bg-red-50 hover:bg-red-100 transition-colors"
+                                        >
+                                            Unenroll
+                                        </button>
                                     </div>
                                 </div>
                             </div>
