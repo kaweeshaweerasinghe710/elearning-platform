@@ -17,7 +17,7 @@ const ContactUs = ({ onClose }) => {
                         Have questions? We'd love to hear from you. Here are the ways you can reach our team.
                     </p>
                     <div className="space-y-6 z-10 font-medium text-lg text-left">
-                        <p className="flex items-center gap-5"><span className="text-3xl">📍</span> Learnify HQ, Colombo</p>
+                        <p className="flex items-center gap-5"><span className="text-3xl">📍</span> Learnify Head Office, Colombo 03, Colombo</p>
                         <p className="flex items-center gap-5"><span className="text-3xl">📞</span> +94 77 123 4567</p>
                         <p className="flex items-center gap-5"><span className="text-3xl">📧</span> hello@learnify.com</p>
                     </div>
