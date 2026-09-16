@@ -2,17 +2,26 @@ import { useState } from 'react';
 import api from '../utils/api';
 
 const ChangePassword = () => {
-    const [formData, setFormData] = useState({ oldPassword: '', newPassword: '' });
+    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (formData.newPassword !== formData.confirmPassword) {
+            setMessage("New passwords do not match!");
+            setIsSuccess(false);
+            return;
+        }
+
         try {
-            await api.put('/users/change-password', formData);
+            await api.put('/users/change-password', {
+                oldPassword: formData.currentPassword,
+                newPassword: formData.newPassword
+            });
             setMessage('Password changed successfully!');
             setIsSuccess(true);
-            setFormData({ oldPassword: '', newPassword: '' });
+            setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to change password');
             setIsSuccess(false);
@@ -20,41 +29,53 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="bg-white rounded-[24px] p-8 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-gray-100 max-w-lg">
-            <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                 Change Password
+        <div className="form-container">
+            <h3 className="form-title mb-6">
+                Change Password
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-6 ${isSuccess ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                     {message}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
+            <form onSubmit={handleSubmit} className="flex flex-col flex-1 space-y-4">
+                <div className="form-group">
+                    <label className="form-label">Current Password</label>
                     <input 
                         type="password" 
-                        value={formData.oldPassword} 
-                        onChange={(e) => setFormData({...formData, oldPassword: e.target.value})} 
+                        value={formData.currentPassword} 
+                        onChange={(e) => setFormData({...formData, currentPassword: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="form-input"
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">New Password</label>
+                <div className="form-group">
+                    <label className="form-label">New Password</label>
                     <input 
                         type="password" 
                         value={formData.newPassword} 
                         onChange={(e) => setFormData({...formData, newPassword: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="form-input"
                     />
                 </div>
-                <button type="submit" className="w-full mt-4 bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 rounded-xl shadow-md transition-all">
-                    Update Password
-                </button>
+                <div className="form-group pb-4">
+                    <label className="form-label">Confirm New Password</label>
+                    <input 
+                        type="password" 
+                        value={formData.confirmPassword} 
+                        onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} 
+                        required 
+                        className="form-input"
+                    />
+                </div>
+                <div className="mt-auto pt-4">
+                    <button type="submit" className="btn-primary w-full">
+                        Update Password
+                    </button>
+                </div>
             </form>
         </div>
     );

@@ -4,12 +4,13 @@ import HeroText from '../components/HeroText';
 import HeroIllustration from '../components/HeroIllustration';
 import AboutUs from '../components/AboutUs';
 import ContactUs from '../components/ContactUs';
+import InstructorsModal from '../components/InstructorsModal';
 
 const Landing = () => {
     const [activeModal, setActiveModal] = useState(null); 
 
     return (
-        <div className="h-screen w-full bg-gradient-to-br from-[#4ea1ff] via-[#2d7ae5] to-[#1256ae] relative overflow-hidden font-sans flex flex-col">
+        <div className="h-screen w-full bg-gradient-to-br from-accent via-accent-hover to-primary relative overflow-hidden font-sans flex flex-col">
             <style>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0px); }
@@ -23,14 +24,16 @@ const Landing = () => {
             <LandingHeader 
                 onOpenAbout={() => setActiveModal('about')} 
                 onOpenContact={() => setActiveModal('contact')} 
+                onOpenInstructors={() => setActiveModal('instructors')}
             />
             
-            <div className="flex-1 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 max-w-7xl mx-auto w-full">
+            <div className="flex-1 flex flex-col items-center px-6 md:px-12 max-w-7xl mx-auto w-full pt-8 md:pt-12">
                 <HeroText />
                 <HeroIllustration />
             </div>
             {activeModal === 'about' && <AboutUs onClose={() => setActiveModal(null)} />}
             {activeModal === 'contact' && <ContactUs onClose={() => setActiveModal(null)} />}
+            {activeModal === 'instructors' && <InstructorsModal onClose={() => setActiveModal(null)} />}
             
         </div>
     );

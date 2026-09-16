@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const LandingHeader = ({ onOpenAbout, onOpenContact }) => {
+const LandingHeader = ({ onOpenAbout, onOpenContact, onOpenInstructors }) => {
     return (
         <nav className="h-[10vh] w-full max-w-7xl mx-auto flex justify-between items-center px-6 lg:px-12 relative z-50">
             <div className="flex items-center gap-2 text-white font-bold text-xl">
@@ -11,14 +11,14 @@ const LandingHeader = ({ onOpenAbout, onOpenContact }) => {
             </div>
             
             <div className="hidden lg:flex gap-7 text-white/90 text-xs font-medium tracking-wide">
-                <span className="cursor-pointer hover:text-white transition">Instructors</span>
+                <span onClick={onOpenInstructors} className="cursor-pointer hover:text-white transition">Instructors</span>
                 <span onClick={onOpenAbout} className="cursor-pointer hover:text-white transition">About Us</span>
                 <span onClick={onOpenContact} className="cursor-pointer hover:text-white transition">Contact</span>
             </div>
             
-            <Link to="/register" className="bg-white text-[#1256ae] px-4 py-1.5 rounded-full font-bold shadow-md flex items-center gap-3 text-xs hover:scale-105 transition-transform">
+            <Link to="/login" className="bg-white text-primary px-4 py-1.5 rounded-full font-bold shadow-md flex items-center gap-3 text-xs hover:scale-105 transition-transform">
                 Start here
-                <div className="w-6 h-6 bg-[#4ea1ff] rounded-full flex items-center justify-center text-white text-[10px]">✕</div>
+                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center text-white text-[10px]">✕</div>
             </Link>
         </nav>
     );

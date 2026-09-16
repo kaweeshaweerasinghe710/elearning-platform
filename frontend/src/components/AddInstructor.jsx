@@ -2,7 +2,7 @@ import { useState } from 'react';
 import api from '../utils/api';
 
 const AddInstructor = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', securityCode: '' });
     const [message, setMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
 
@@ -12,7 +12,7 @@ const AddInstructor = () => {
             await api.post('/users/add-instructor', formData);
             setMessage('Instructor added successfully!');
             setIsSuccess(true);
-            setFormData({ name: '', email: '', password: '' });
+            setFormData({ name: '', email: '', password: '', securityCode: '' });
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to add instructor');
             setIsSuccess(false);
@@ -20,51 +20,64 @@ const AddInstructor = () => {
     };
 
     return (
-        <div className="bg-white rounded-[24px] p-8 shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-gray-100 max-w-lg">
-            <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <div className="form-container">
+            <h3 className="form-title mb-6">
                  Add New Instructor
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-xl text-sm font-bold flex items-center gap-3 mb-6 ${isSuccess ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                     {message}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <form onSubmit={handleSubmit} className="flex flex-col flex-1 space-y-4">
+                <div className="form-group">
+                    <label className="form-label">Name</label>
                     <input 
                         type="text" 
                         value={formData.name} 
                         onChange={(e) => setFormData({...formData, name: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="form-input"
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <div className="form-group">
+                    <label className="form-label">Email</label>
                     <input 
                         type="email" 
                         value={formData.email} 
                         onChange={(e) => setFormData({...formData, email: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="form-input"
                     />
                 </div>
-                <div>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <div className="form-group">
+                    <label className="form-label">Password</label>
                     <input 
                         type="password" 
                         value={formData.password} 
                         onChange={(e) => setFormData({...formData, password: e.target.value})} 
                         required 
-                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#1256ae] outline-none"
+                        className="form-input"
                     />
                 </div>
-                <button type="submit" className="w-full mt-4 bg-[#1256ae] hover:bg-[#0c3977] text-white font-bold py-3 rounded-xl shadow-md transition-all">
-                    Add Instructor
-                </button>
+                <div className="form-group pb-4">
+                    <label className="form-label text-red-600">Admin Security Code</label>
+                    <input 
+                        type="password" 
+                        value={formData.securityCode} 
+                        onChange={(e) => setFormData({...formData, securityCode: e.target.value})} 
+                        required 
+                        placeholder="Required for authorization"
+                        className="form-input border-red-200 focus:border-red-500 focus:ring-red-500/20"
+                    />
+                </div>
+                <div className="mt-auto pt-4">
+                    <button type="submit" className="btn-primary w-full">
+                        Add Instructor
+                    </button>
+                </div>
             </form>
         </div>
     );

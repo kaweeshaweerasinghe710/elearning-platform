@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const AuthLayout = ({ title, subtitle, description, children }) => {
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-[#2a75d3] to-[#0c3977] flex items-center justify-center p-6 font-sans">
+        <div className="min-h-screen w-full bg-gradient-to-br from-[#2a75d3] to-primary-hover flex items-center justify-center p-6 font-sans">
             <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
                 <div className="w-full lg:w-1/2 text-white px-4 md:px-10 text-center lg:text-left mt-10 lg:mt-0">
                     <Link to="/" className="inline-block mb-12 opacity-60 hover:opacity-100 transition text-sm font-medium tracking-wide">
