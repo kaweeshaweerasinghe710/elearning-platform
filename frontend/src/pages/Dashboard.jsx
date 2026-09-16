@@ -10,7 +10,6 @@ import InstructorCourses from '../components/InstructorCourses';
 import AddInstructor from '../components/AddInstructor';
 import ChangePassword from '../components/ChangePassword';
 
-
 const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
     
@@ -57,7 +56,6 @@ const Dashboard = () => {
                     )}
                 </div>
             </main>
-
         </div>
     );
 };
