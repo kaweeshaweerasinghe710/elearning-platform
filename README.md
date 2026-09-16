@@ -26,10 +26,9 @@ The project is fully deployed using AWS EC2, S3, and automated via GitHub Action
 - View a detailed list of students enrolled in specific courses.
 
 **Cloud & DevOps (AWS + CI/CD):**
-- **Cloud Storage:** Secure file uploads (PDFs, Videos) directly to AWS S3 using `multer-s3`.
-- **Backend Hosting:** Deployed on AWS EC2 using PM2 for process management.
-- **Frontend Hosting:** Serverless Static Website Hosting via AWS S3.
-- **CI/CD Pipeline:** Fully automated frontend deployment using GitHub Actions 
+- **Cloud Storage:** Secure file uploads directly to AWS S3 using `multer-s3`.
+- **Unified Hosting:** Both the Frontend and Backend are deployed onto a single AWS EC2 instance running dynamically via PM2.
+- **CI/CD Pipeline:** Fully automated full stack deployment using GitHub Actions directly to EC2 via SSH.  
 
 ---
 
@@ -39,6 +38,14 @@ The project is fully deployed using AWS EC2, S3, and automated via GitHub Action
 - **Backend:** Node.js, Express.js, JWT, Bcrypt.js, Google Auth Library, OpenAI API, AWS SDK.
 - **Database:** MongoDB Atlas (Mongoose ORM).   A
 - **Cloud & DevOps:** AWS EC2, AWS S3, AWS IAM, GitHub Actions, PM2.
+
+---
+
+##  System Architecture
+
+The system adheres to an MVC (Model-View-Controller) architectural pattern. 
+The dynamic React frontend serves as the View layer and communicates natively with the Express.js REST API. 
+The Node.js backend functions as the centralized Controller: it validates incoming requests, enforces JWT-based authentication and executes transactions with the MongoDB database (Model).
 
 ---
 
