@@ -26,8 +26,8 @@ const AddInstructor = () => {
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                    {message}
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-xl border font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 ${isSuccess ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                   {message}
                 </div>
             )}
 

@@ -10,10 +10,12 @@ const CourseList = () => {
     const { enrollments } = useEnrollments();
     const [showAdvisor, setShowAdvisor] = useState(false);
     const [enrollMessage, setEnrollMessage] = useState(null);
+    const [newlyEnrolled, setNewlyEnrolled] = useState(new Set());
   
     const handleEnroll = async (courseId) => {
         const result = await enroll(courseId);
         if (result.success) {
+            setNewlyEnrolled(prev => new Set(prev).add(courseId));
             setEnrollMessage({ type: 'success', text: 'Successfully enrolled in the course' });
             window.dispatchEvent(new Event('syncEnrollments'));
             setTimeout(() => setEnrollMessage(null), 3000);
@@ -26,15 +28,15 @@ const CourseList = () => {
     if (coursesLoading && courses.length === 0) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
 
     const getIsEnrolled = (courseId) => {
-        return enrollments.some(enrollment => enrollment.course?._id === courseId);
+        return newlyEnrolled.has(courseId) || enrollments.some(enrollment => enrollment.course?._id === courseId);
     };
 
     return (
         <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
             <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
                 {enrollMessage && (
-                    <div className={`fixed top-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-xl border font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 ${enrollMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                       {enrollMessage.text}
+                    <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-xl border font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 ${enrollMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                       <span className="text-xl">{enrollMessage.type === 'success' ? '✅' : '❌'}</span> {enrollMessage.text}
                     </div>
                 )}
                 <div className="list-header flex justify-end items-center mb-6">

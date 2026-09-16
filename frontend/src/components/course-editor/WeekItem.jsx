@@ -2,7 +2,7 @@ import { Plus, X } from 'lucide-react';
 import ClassLinkRow from './ClassLinkRow';
 import ResourceRow from './ResourceRow';
 
-const WeekItem = ({ week, wIdx, onChange, onRemove, onSave }) => {
+const WeekItem = ({ week, wIdx, onChange, onRemove, onSaveWeek }) => {
     const addClassLink = () => onChange('classLinks', [...(week.classLinks || []), { title: '', url: '', date: '' }]);
     const updateClassLink = (idx, field, val) => {
         const newLinks = [...(week.classLinks || [])];
@@ -28,7 +28,7 @@ const WeekItem = ({ week, wIdx, onChange, onRemove, onSave }) => {
             <div className="flex items-center justify-between p-4 bg-slate-50 border-b border-slate-100">
                 <input type="text" value={week.title} onChange={(e) => onChange('title', e.target.value)} placeholder="Week Title (e.g. Week 1)" className="form-input flex-1 font-bold text-slate-800 bg-white" />
                 <div className="flex items-center gap-2 ml-4">
-                    <button type="button" onClick={onSave} className="btn-primary py-2 px-4 shadow-sm text-sm">Save Week</button>
+                    <button type="button" onClick={onSaveWeek} className="btn-primary py-2 px-4 shadow-sm text-sm">Save Week</button>
                     <button type="button" onClick={onRemove} className="ce-remove-btn" title="Remove Week"><X size={14} /></button>
                 </div>
             </div>

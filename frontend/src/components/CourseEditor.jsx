@@ -30,6 +30,19 @@ const CourseEditor = ({ course, onSave, onCancel }) => {
             setSaving(false);
         }
     };
+
+    const handleSaveWeek = async () => {
+        setSaving(true);
+        try {
+            await api.put(`/courses/${course._id}`, formData);
+            alert("Week saved successfully!");
+        } catch (error) {
+            console.error("Failed to update course", error);
+            alert("Failed to save week");
+        } finally {
+            setSaving(false);
+        }
+    };
     const addWeek = () => setFormData({ ...formData, weeks: [...formData.weeks, { title: `Week ${formData.weeks.length + 1}`, announcement: '', classLinks: [], resources: [] }] });
     const updateWeek = (idx, field, val) => {
         const updated = [...formData.weeks]; updated[idx] = { ...updated[idx], [field]: val };
@@ -48,10 +61,6 @@ const CourseEditor = ({ course, onSave, onCancel }) => {
         <div className="ce-container">
             <div className="ce-topbar">
                 <button onClick={onCancel} className="ce-back-btn"><ArrowLeft size={18} /><span>Back to Courses</span></button>
-                <div className="flex items-center gap-3">
-                    <button onClick={onCancel} className="btn-secondary text-sm px-4 py-2">Cancel</button>
-                    <button onClick={handleSave} disabled={saving} className="btn-primary text-sm px-4 py-2">{saving ? 'Saving...' : 'Save Changes'}</button>
-                </div>
             </div>
             <div className="max-w-5xl mx-auto py-8 px-6">
                 <div className="ce-page-title mb-8">
@@ -72,7 +81,7 @@ const CourseEditor = ({ course, onSave, onCancel }) => {
                     <EditorSection title="Curriculum (Week by Week)" defaultOpen={true}>
                         <p className="text-sm text-slate-500 mb-4">Structure your course , Add class links, resources, and announcements for  week.</p>
                         <div className="space-y-6">
-                            {formData.weeks.map((week, wIdx) => (<WeekItem key={wIdx} week={week} wIdx={wIdx} onChange={(field, val) => updateWeek(wIdx, field, val)} onRemove={() => removeWeek(wIdx)} onSave={handleSave} />))}
+                            {formData.weeks.map((week, wIdx) => (<WeekItem key={wIdx} week={week} wIdx={wIdx} onChange={(field, val) => updateWeek(wIdx, field, val)} onRemove={() => removeWeek(wIdx)} onSaveWeek={handleSaveWeek} />))}
                             <button type="button" onClick={addWeek} className="ce-add-btn w-full justify-center py-4 text-base border-dashed border-2 bg-slate-50 hover:bg-slate-100"><Plus size={15} /> Add Week</button>
                         </div>
                     </EditorSection>
