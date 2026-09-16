@@ -40,21 +40,34 @@ const Dashboard = () => {
                 setActiveTab={setActiveTab} 
             />
             <main className="dashboard-main">
-                <div>
-                    {user.role === 'student' && activeTab === 'courses' && <CourseList />}
-                    {user.role === 'student' && activeTab === 'enrollments' && <MyEnrollments />}
+                    {user.role === 'student' && (
+                        <>
+                            <div style={{ display: activeTab === 'courses' ? 'block' : 'none' }}>
+                                <CourseList />
+                            </div>
+                            <div style={{ display: activeTab === 'enrollments' ? 'block' : 'none' }}>
+                                <MyEnrollments />
+                            </div>
+                        </>
+                    )}
 
-                    
-                    {user.role === 'instructor' && activeTab === 'manage' && <InstructorCourses />}
-                    {user.role === 'instructor' && activeTab === 'create' && <CreateCourse />}
+                    {user.role === 'instructor' && (
+                        <>
+                            <div style={{ display: activeTab === 'manage' ? 'block' : 'none' }}>
+                                <InstructorCourses />
+                            </div>
+                            <div style={{ display: activeTab === 'create' ? 'block' : 'none' }}>
+                                <CreateCourse />
+                            </div>
+                        </>
+                    )}
 
-                    {activeTab === 'settings' && (
+                    <div style={{ display: activeTab === 'settings' ? 'block' : 'none' }}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
                             <ChangePassword />
                             {user.role === 'instructor' && <AddInstructor />}
                         </div>
-                    )}
-                </div>
+                    </div>
             </main>
         </div>
     );
