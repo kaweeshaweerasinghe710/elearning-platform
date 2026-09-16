@@ -17,6 +17,9 @@ const InstructorCourses = () => {
                     handleUpdate(updatedCourse);
                     setEditingCourse(null);
                 }}
+                onUpdate={(updatedCourse) => {
+                    handleUpdate(updatedCourse);
+                }}
                 onCancel={() => setEditingCourse(null)}
             />
         );

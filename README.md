@@ -6,7 +6,7 @@ The project is fully deployed using AWS EC2, S3, and automated via GitHub Action
 
 ---
 
-## ✨ Features
+##  Features
 
 **Authentication & Security:**
 - Secure JWT (JSON Web Token) authentication.
@@ -33,7 +33,7 @@ The project is fully deployed using AWS EC2, S3, and automated via GitHub Action
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 - **Frontend:** React.js (Vite), Tailwind CSS, React Router DOM, Axios, React Google OAuth.
 - **Backend:** Node.js, Express.js, JWT, Bcrypt.js, Google Auth Library, OpenAI API, AWS SDK.
@@ -42,7 +42,7 @@ The project is fully deployed using AWS EC2, S3, and automated via GitHub Action
 
 ---
 
-## 🚀 Live Deployment Architecture
+##  Live Deployment Architecture
 
 The application is deployed with a decoupled architecture for maximum performance and cost-efficiency:
 
@@ -53,7 +53,7 @@ The application is deployed with a decoupled architecture for maximum performanc
 
 ---
 
-## 🛠️ Local Development Setup
+##  Local Development Setup
 
 ### Prerequisites
 - Node.js (v18+)
@@ -111,15 +111,14 @@ The application is deployed with a decoupled architecture for maximum performanc
 
 ---
 
-## 📂 Database Collections (MongoDB)
+## Database Collections (MongoDB)
 
-1. **Users:** Stores user details, hashed passwords, and roles (`student` or `instructor`).
+1. **Users:** Stores user details, hashed passwords, roles (`student` or `instructor`), and an array of `enrolledCourses` containing ObjectIDs referring to the Courses collection.
 2. **Courses:** Stores course details, week-by-week curriculum, quizzes, S3 file URLs, and a reference to the Instructor.
-3. **Enrollments:** A pivot collection linking a `student (User)` and a `Course` with unique index constraints.
 
 ---
 
-## 🌐 API Endpoints Documentation
+##  API Endpoints Documentation
 
 ### User Authentication
 | Method | Endpoint | Description | Access |

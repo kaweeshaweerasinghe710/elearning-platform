@@ -19,10 +19,12 @@ const getMyEnrollments = async (req, res) => {
             options: { skip: skip, limit: limit }
         });
 
-        const formattedEnrollments = (user.enrolledCourses || []).map(course => ({
-            _id: course._id, 
-            course: course
-        }));
+        const formattedEnrollments = (user.enrolledCourses || [])
+            .filter(course => course != null && course._id)
+            .map(course => ({
+                _id: course._id, 
+                course: course
+            }));
 
         res.status(200).json({ 
             enrollments: formattedEnrollments, 

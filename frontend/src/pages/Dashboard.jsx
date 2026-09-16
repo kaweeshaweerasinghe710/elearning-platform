@@ -24,8 +24,11 @@ const Dashboard = () => {
         return role === 'instructor' ? 'manage' : 'courses';
     });
 
+    const [visitedTabs, setVisitedTabs] = useState([activeTab]);
+
     useEffect(() => {
         localStorage.setItem('dashboard_active_tab', activeTab);
+        setVisitedTabs(prev => prev.includes(activeTab) ? prev : [...prev, activeTab]);
     }, [activeTab]);
 
     if (!user) return <Navigate to="/login" />;
@@ -42,32 +45,42 @@ const Dashboard = () => {
             <main className="dashboard-main">
                     {user.role === 'student' && (
                         <>
-                            <div style={{ display: activeTab === 'courses' ? 'block' : 'none' }}>
-                                <CourseList />
-                            </div>
-                            <div style={{ display: activeTab === 'enrollments' ? 'block' : 'none' }}>
-                                <MyEnrollments />
-                            </div>
+                            {visitedTabs.includes('courses') && (
+                                <div style={{ display: activeTab === 'courses' ? 'block' : 'none' }}>
+                                    <CourseList />
+                                </div>
+                            )}
+                            {visitedTabs.includes('enrollments') && (
+                                <div style={{ display: activeTab === 'enrollments' ? 'block' : 'none' }}>
+                                    <MyEnrollments />
+                                </div>
+                            )}
                         </>
                     )}
 
                     {user.role === 'instructor' && (
                         <>
-                            <div style={{ display: activeTab === 'manage' ? 'block' : 'none' }}>
-                                <InstructorCourses />
-                            </div>
-                            <div style={{ display: activeTab === 'create' ? 'block' : 'none' }}>
-                                <CreateCourse />
-                            </div>
+                            {visitedTabs.includes('manage') && (
+                                <div style={{ display: activeTab === 'manage' ? 'block' : 'none' }}>
+                                    <InstructorCourses />
+                                </div>
+                            )}
+                            {visitedTabs.includes('create') && (
+                                <div style={{ display: activeTab === 'create' ? 'block' : 'none' }}>
+                                    <CreateCourse />
+                                </div>
+                            )}
                         </>
                     )}
 
-                    <div style={{ display: activeTab === 'settings' ? 'block' : 'none' }}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
-                            <ChangePassword />
-                            {user.role === 'instructor' && <AddInstructor />}
+                    {visitedTabs.includes('settings') && (
+                        <div style={{ display: activeTab === 'settings' ? 'block' : 'none' }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
+                                <ChangePassword />
+                                {user.role === 'instructor' && <AddInstructor />}
+                            </div>
                         </div>
-                    </div>
+                    )}
             </main>
         </div>
     );
