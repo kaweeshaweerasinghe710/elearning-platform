@@ -14,11 +14,26 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const renderTabs = () => (
+        <>
+            {user.role === 'student' ? (
+                <>
+                    <NavLink active={activeTab === 'courses'} onClick={() => setActiveTab('courses')} icon={<Layout size={18} />}>Explore Courses</NavLink>
+                    <NavLink active={activeTab === 'enrollments'} onClick={() => setActiveTab('enrollments')} icon={<BookOpen size={18} />}>My Enrollments</NavLink>
+                </>
+            ) : (
+                <>
+                    <NavLink active={activeTab === 'manage'} onClick={() => setActiveTab('manage')} icon={<Layout size={18} />}>Dashboard</NavLink>
+                    <NavLink active={activeTab === 'create'} onClick={() => setActiveTab('create')} icon={<PlusCircle size={18} />}>Create</NavLink>
+                </>
+            )}
+        </>
+    );
+
     return (
-        <div className="nav-wrapper">
-            <nav className="px-3 sm:px-6 py-2 sm:h-16 flex flex-wrap items-center justify-between gap-y-2">
+        <div className="nav-wrapper pb-2 md:pb-0">
+            <nav className="nav-bar">
                 
-                {/* Left: Logo */}
                 <div className="flex items-center gap-3">
                     <div className="nav-logo-box">L</div>
                     <div className="flex flex-col">
@@ -26,19 +41,11 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
                         <span className="text-[10px] text-slate-500 font-medium">E-Learning Platform</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-1 order-3 sm:order-2 w-full sm:w-auto overflow-x-auto justify-center pb-1 sm:pb-0 scrollbar-hide">
-                    {user.role === 'student' ? (
-                        <>
-                            <NavLink active={activeTab === 'courses'} onClick={() => setActiveTab('courses')} icon={<Layout size={18} />}>Explore Courses</NavLink>
-                            <NavLink active={activeTab === 'enrollments'} onClick={() => setActiveTab('enrollments')} icon={<BookOpen size={18} />}>My Enrollments</NavLink>
-                        </>
-                    ) : (
-                        <>
-                            <NavLink active={activeTab === 'manage'} onClick={() => setActiveTab('manage')} icon={<Layout size={18} />}>Dashboard</NavLink>
-                            <NavLink active={activeTab === 'create'} onClick={() => setActiveTab('create')} icon={<PlusCircle size={18} />}>Create</NavLink>
-                        </>
-                    )}
+                
+                <div className="hidden md:flex items-center gap-1">
+                    {renderTabs()}
                 </div>
+
                 <div className="relative" ref={dropdownRef}>
                     <button 
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -78,6 +85,10 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
                     )}
                 </div>
             </nav>
+            
+            <div className="flex md:hidden items-center gap-1 w-full overflow-x-auto justify-center px-4 scrollbar-hide">
+                {renderTabs()}
+            </div>
         </div>
     );
 };
