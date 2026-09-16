@@ -16,6 +16,7 @@ const getBgClass = (id = '') => {
 const MyEnrollments = () => {
     const { enrollments, loading, page, setPage, totalPages, unenroll } = useEnrollments();
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [message, setMessage] = useState(null);
 
 
     if (loading && enrollments.length === 0) return <div className="text-center py-20 text-gray-500 font-medium text-sm">Loading your enrollments...</div>;
@@ -26,6 +27,11 @@ const MyEnrollments = () => {
 
     return (
         <div>
+            {message && (
+                <div className={`mb-6 p-4 rounded-xl shadow-sm border font-semibold ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                    {message.text}
+                </div>
+            )}
             <div className="list-header">
            
             </div>
@@ -62,10 +68,15 @@ const MyEnrollments = () => {
                                     <div className="mt-auto pt-4 border-t border-slate-100 flex justify-between items-center text-sm font-semibold group-hover:text-primary-hover transition-colors">
                                         <span className="text-primary flex items-center gap-1">Continue <span className="transform group-hover:translate-x-1 transition-transform">&rarr;</span></span>
                                         <button 
-                                            onClick={(e) => {
+                                            onClick={async (e) => {
                                                 e.stopPropagation();
-                                                if(window.confirm('Are you sure you want to un-enroll from this course?')) {
-                                                    unenroll(enrollment.course?._id);
+                                                const result = await unenroll(enrollment.course?._id);
+                                                if (result.success) {
+                                                    setMessage({ type: 'success', text: 'Successfully unenrolled' });
+                                                    setTimeout(() => window.location.reload(), 1500);
+                                                } else {
+                                                    setMessage({ type: 'error', text: result.message });
+                                                    setTimeout(() => setMessage(null), 3000);
                                                 }
                                             }}
                                             className="text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded bg-red-50 hover:bg-red-100 transition-colors"

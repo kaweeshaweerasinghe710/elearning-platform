@@ -69,7 +69,7 @@ const CreateCourse = () => {
                             <label className="form-label">Course content</label>
                             <textarea 
                                 value={content} onChange={(e) => setContent(e.target.value)} rows="2"
-                                placeholder="Welcome messages or syllabus info..."
+                                placeholder=" syllabus info..."
                                 className="form-input resize-none"
                             />
                         </div>
