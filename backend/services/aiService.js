@@ -1,50 +1,129 @@
-const getAIRecommendations = async (userPrompt, availableCourses) => {
+const getAIRecommendations = async (messages, availableCourses) => {
     const apiKey = process.env.OPENAI_API_KEY;
     const systemPrompt = `
-You are an expert student advisor for an E-Learning platform. 
+You are a friendly student personal assistant for an E-Learning platform. 
 Your goal is to recommend the best courses to a student based on their request.
 
-Here are the available courses in our database (in JSON format):
+Available courses (JSON):
 ${JSON.stringify(availableCourses.map(c => ({ id: c._id, title: c.title, description: c.description })))}
-
 Instructions:
-1. Analyze the student's request.
-2. Select up to 3 courses that best match their needs.
-3. Return ONLY a valid JSON object in the following format, with no markdown formatting or extra text:
+1. If the student's request is vague or unclear, ask a clarifying question to understand what they want to learn.
+2. If the student asks for a topic or skill, find the most suitable courses from the JSON list provided and return their IDs in the \`courseIds\` array (max 3).
+3. In your \`message\`, you MUST provide a short, friendly explanation of WHY these specific courses match their request. Do not just list the course names in the message.
+4. ALWAYS return ONLY a valid JSON object matching this structure exactly (no markdown formatting, just raw JSON):
 {
-    "message": "A short, friendly message explaining why you chose these courses.",
-    "courseIds": ["id1", "id2"]
+    "message": "Your explanation of why these courses are suitable (or your clarifying question).\\nUse line breaks if needed.",
+    "courseIds": ["id1", "id2"] // Leave this array empty if you are just asking a clarifying question.
 }
 `;
 
     if (apiKey) {
         try {
-            console.warn("AI Service: API Key found but fetch logic is commented out.");
+            const apiMessages = [
+                { role: 'system', content: systemPrompt },
+                ...messages.map(m => ({ role: m.role, content: m.content }))
+            ];
+
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: apiMessages,
+                    temperature: 0.7
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                let content = data.choices[0].message.content;
+                
+                // Try to parse, stripping markdown if necessary
+                content = content.replace(/```json/gi, '').replace(/```/g, '').trim();
+                
+                try {
+                    const parsed = JSON.parse(content);
+                    
+                    const recommendedCourses = parsed.courseIds
+                        .map(id => availableCourses.find(c => c._id.toString() === id))
+                        .filter(Boolean);
+
+                    return {
+                        message: parsed.message,
+                        courses: recommendedCourses
+                    };
+                } catch (parseError) {
+                    console.error("Failed to parse AI JSON response:", content);
+                }
+            } else {
+                console.error("OpenAI API error:", await response.text());
+            }
         } catch (error) {
             console.error("AI API Error:", error);
-            throw new Error("Failed to communicate with AI provider.");
         }
     }
 
 
-    const lowerPrompt = userPrompt.toLowerCase();
+    const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
+    const lowerPrompt = lastUserMessage.toLowerCase();
     let fallbackMatches = availableCourses.filter(course => 
         (course.title && course.title.toLowerCase().includes(lowerPrompt)) || 
         (course.description && course.description.toLowerCase().includes(lowerPrompt))
     );
 
-    if (fallbackMatches.length === 0 && availableCourses.length > 0) {
-        fallbackMatches = availableCourses.slice(0, 2);
-    }
-
     return {
         message: fallbackMatches.length > 0 
-            ? "Here are the best courses I found for you based on your request:"
-            : "I couldn't find exact matches for that topic, but here are some suggestions:",
+            ? "I couldn't reach my AI brain, but here are some courses that match your keywords:"
+            : "I couldn't reach my AI brain, and I couldn't find any courses matching those exact keywords.",
         courses: fallbackMatches.slice(0, 3)
     };
 };
 
+const getAIChatResponse = async (userPrompt) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    const systemPrompt = `
+You are a helpful and friendly student personal assistant for an E-Learning platform. 
+Your goal is to answer the student's general questions, give study advice, and help them navigate their learning journey.
+Reply with clear, helpful text. Use line breaks (\\n) for readability. Do not return JSON.
+`;
+
+    if (apiKey) {
+        try {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-3.5-turbo',
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        { role: 'user', content: userPrompt }
+                    ],
+                    temperature: 0.7
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return { message: data.choices[0].message.content };
+            } else {
+                console.error("OpenAI API error:", await response.text());
+            }
+        } catch (error) {
+            console.error("AI API Error:", error);
+        }
+    }
+    return {
+        message: "I am your AI study assistant! However, my OpenAI API key is not configured, so I can only offer limited help right now."
+    };
+};
+
 module.exports = {
-    getAIRecommendations
+    getAIRecommendations,
+    getAIChatResponse
 };

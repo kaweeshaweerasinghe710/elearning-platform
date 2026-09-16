@@ -5,12 +5,16 @@ export const useCourses = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         const fetchCourses = async () => {
+            setLoading(true);
             try {
-                const { data } = await api.get('/courses');
-                setCourses(data);
+                const { data } = await api.get(`/courses?page=${page}&limit=5`);
+                setCourses(data.courses || []);
+                setTotalPages(data.pages || 1);
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching courses:", err);
@@ -19,7 +23,7 @@ export const useCourses = () => {
             }
         };
         fetchCourses();
-    }, []);
+    }, [page]);
 
     const enroll = async (courseId) => {
         try {
@@ -30,5 +34,5 @@ export const useCourses = () => {
         }
     };
 
-    return { courses, loading, error, enroll };
+    return { courses, loading, error, enroll, page, setPage, totalPages };
 };

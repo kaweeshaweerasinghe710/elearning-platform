@@ -39,14 +39,13 @@ const StudentCourseModules = ({ weeks }) => {
                                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Study Materials</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {week.resources.map((res, rIdx) => {
-                                        const downloadUrl = res.url;
                                         return (
-                                        <a key={rIdx} href={downloadUrl || '#'} onClick={(e) => { e.stopPropagation(); if(!downloadUrl) e.preventDefault(); }} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg hover:border-emerald-400 hover:shadow-sm transition-all group">
+                                        <a key={rIdx} href={res.url || '#'} onClick={(e) => { e.stopPropagation(); if(!res.url) e.preventDefault(); }} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg hover:border-blue-400 hover:shadow-sm transition-all group">
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">{res.title}</span>
+                                                <span className="text-sm font-bold text-slate-800 group-hover:text-blue-500 transition-colors">{res.title}</span>
                                                 <span className="text-[10px] font-bold text-slate-400 uppercase">{res.resourceType}</span>
                                             </div>
-                                            <span className="text-slate-400 group-hover:text-emerald-600 transition-colors tooltip" title="Download">
+                                            <span className="text-slate-400 group-hover:text-blue-500 transition-colors tooltip" title="View/Download">
                                                 <Download size={20} />
                                             </span>
                                         </a>

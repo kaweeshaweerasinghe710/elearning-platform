@@ -14,7 +14,11 @@ const WeekItem = ({ week, wIdx, onChange, onRemove, onSave }) => {
     const addResource = () => onChange('resources', [...(week.resources || []), { title: '', url: '' }]);
     const updateResource = (idx, field, val) => {
         const newRes = [...(week.resources || [])];
-        newRes[idx] = { ...newRes[idx], [field]: val };
+        if (typeof field === 'object') {
+            newRes[idx] = { ...newRes[idx], ...field };
+        } else {
+            newRes[idx] = { ...newRes[idx], [field]: val };
+        }
         onChange('resources', newRes);
     };
     const removeResource = (idx) => onChange('resources', (week.resources || []).filter((_, i) => i !== idx));

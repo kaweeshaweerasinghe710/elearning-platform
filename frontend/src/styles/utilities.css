@@ -1,0 +1,52 @@
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+
+  .gradient-primary { background: var(--gradient-primary); color: hsl(var(--primary-foreground)); }
+  .gradient-hero    { background: var(--gradient-hero); }
+  .gradient-mesh    { background: var(--gradient-mesh); }
+  .gradient-dark    { background: var(--gradient-dark); }
+
+
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0)     rotate(0deg); }
+    50%       { transform: translateY(-15px) rotate(2deg); }
+  }
+
+  .scale-up { animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  @keyframes scaleUp {
+    from { transform: scale(0.95); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .toast-success {
+    background: hsl(165 80% 30%) !important;
+    color: #fff !important;
+    border: 1px solid hsl(165 80% 30%) !important;
+  }
+  .toast-error {
+    background: hsl(0 65% 35%) !important;
+    color: #fff !important;
+    border: 1px solid hsl(0 65% 35%) !important;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar       { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+}
