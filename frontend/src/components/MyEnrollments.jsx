@@ -28,7 +28,7 @@ const MyEnrollments = () => {
     return (
         <div>
             {message && (
-                <div className={`mb-6 text-lg font-extrabold ${message.type === 'success' ? 'text-emerald-600' : 'text-red-600'}`}>
+                <div className={`fixed top-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-xl border font-bold flex items-center gap-2 transition-all duration-300 transform scale-100 opacity-100 ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                     {message.text}
                 </div>
             )}
