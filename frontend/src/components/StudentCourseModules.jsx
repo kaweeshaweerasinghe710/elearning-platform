@@ -8,7 +8,7 @@ const StudentCourseModules = ({ weeks }) => {
         <div className="mt-8 space-y-4">
             <h3 className="text-xl font-bold text-slate-800 border-b pb-2 mb-4">Course Content</h3>
             {weeks.map((week, index) => (
-                <AccordionSection key={index} title={week.title || `Module ${index + 1}`} showCollapseAll={false}>
+                <AccordionSection key={index} title={week.title || `Module ${index + 1}`} showCollapseAll={false} defaultOpen={false}>
                     <div className="flex flex-col gap-5 p-1">
                         {week.announcement && (
                             <div className="p-3 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg text-sm text-slate-700">

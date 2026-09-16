@@ -10,7 +10,7 @@ const AboutUs = ({ onClose }) => {
                 </button>
                 <div className="md:w-1/2">
                     <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
-                        Empowering Learners Worldwide 🌍
+                        Empowering Learners Worldwide 
                     </h2>
                     <p className="text-gray-600 text-lg mb-10 leading-relaxed font-medium">
                         At Learnify, we believe that education should be accessible, engaging, and premium. Our platform connects passionate instructors with eager students, providing world-class tools to build and consume educational content.

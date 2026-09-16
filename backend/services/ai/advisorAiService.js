@@ -40,8 +40,6 @@ Instructions:
             if (response.ok) {
                 const data = await response.json();
                 let content = data.choices[0].message.content;
-                
-                // Try to parse, stripping markdown if necessary
                 content = content.replace(/```json/gi, '').replace(/```/g, '').trim();
                 
                 try {
@@ -69,61 +67,23 @@ Instructions:
 
     const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
     const lowerPrompt = lastUserMessage.toLowerCase();
-    let fallbackMatches = availableCourses.filter(course => 
-        (course.title && course.title.toLowerCase().includes(lowerPrompt)) || 
-        (course.description && course.description.toLowerCase().includes(lowerPrompt))
-    );
+    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 3 && !['want', 'this', 'that', 'what', 'should', 'would', 'could'].includes(w));
+    
+    let fallbackMatches = [];
+    if (keywords.length > 0) {
+        fallbackMatches = availableCourses.filter(course => {
+            const title = (course.title || "").toLowerCase();
+            const desc = (course.description || "").toLowerCase();
+            return keywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
+        });
+    }
 
     return {
         message: fallbackMatches.length > 0 
-            ? "I couldn't reach my AI brain, but here are some courses that match your keywords:"
-            : "I couldn't reach my AI brain, and I couldn't find any courses matching those exact keywords.",
+            ? "Here are some courses that match the keywords in your request:"
+            : "I couldn't find any courses matching those exact keywords.",
         courses: fallbackMatches.slice(0, 3)
     };
 };
 
-const getAIChatResponse = async (userPrompt) => {
-    const apiKey = process.env.OPENAI_API_KEY;
-    const systemPrompt = `
-You are a helpful and friendly student personal assistant for an E-Learning platform. 
-Your goal is to answer the student's general questions, give study advice, and help them navigate their learning journey.
-Reply with clear, helpful text. Use line breaks (\\n) for readability. Do not return JSON.
-`;
-
-    if (apiKey) {
-        try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        { role: 'system', content: systemPrompt },
-                        { role: 'user', content: userPrompt }
-                    ],
-                    temperature: 0.7
-                })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                return { message: data.choices[0].message.content };
-            } else {
-                console.error("OpenAI API error:", await response.text());
-            }
-        } catch (error) {
-            console.error("AI API Error:", error);
-        }
-    }
-    return {
-        message: "I am your AI study assistant! However, my OpenAI API key is not configured, so I can only offer limited help right now."
-    };
-};
-
-module.exports = {
-    getAIRecommendations,
-    getAIChatResponse
-};
+module.exports = { getAIRecommendations };

@@ -19,6 +19,19 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return setError('Please enter a valid email address');
+        }
+
+        if (name.trim().length < 3) {
+            return setError('Name must be at least 3 characters long');
+        }
+        if (password.length < 6) {
+            return setError('Password must be at least 6 characters long');
+        }
+
         try {
             const { data } = await api.post('/users/register', { name, email, password, role });
             login(data);

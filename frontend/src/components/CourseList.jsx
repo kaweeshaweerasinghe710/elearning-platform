@@ -3,38 +3,49 @@ import { useCourses } from '../hooks/useCourses';
 import { useEnrollments } from '../hooks/useEnrollments';
 import CourseCard from './CourseCard'; 
 import CourseAdvisor from './CourseAdvisor';
-import { ChevronLeft, ChevronRight, BookOpen, X } from 'lucide-react';
+import Pagination from './course-list/Pagination';
+import { BookOpen, X } from 'lucide-react';
 
 const CourseList = () => {
     const { courses, loading: coursesLoading, enroll, page, setPage, totalPages } = useCourses();
     const { enrollments } = useEnrollments();
     const [showAdvisor, setShowAdvisor] = useState(false);
+    const [enrollMessage, setEnrollMessage] = useState(null);
+    const [newlyEnrolled, setNewlyEnrolled] = useState(new Set());
   
     const handleEnroll = async (courseId) => {
         const result = await enroll(courseId);
         if (result.success) {
-            alert('Successfully enrolled in the course! ');
-            window.location.reload(); 
+            setNewlyEnrolled(prev => new Set(prev).add(courseId));
+            setEnrollMessage({ type: 'success', text: 'Successfully enrolled in the course' });
+            window.dispatchEvent(new Event('syncEnrollments'));
+            setTimeout(() => setEnrollMessage(null), 3000);
         } else {
-            alert(result.message);
+            setEnrollMessage({ type: 'error', text: result.message });
+            setTimeout(() => setEnrollMessage(null), 3000);
         }
     };
 
-    if (coursesLoading) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
+    if (coursesLoading && courses.length === 0) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
 
     const getIsEnrolled = (courseId) => {
-        return enrollments.some(enrollment => enrollment.course?._id === courseId);
+        return newlyEnrolled.has(courseId) || enrollments.some(enrollment => enrollment.course?._id === courseId);
     };
 
     return (
         <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
             <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
+                {enrollMessage && (
+                    <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${enrollMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                       {enrollMessage.text}
+                    </div>
+                )}
                 <div className="list-header flex justify-end items-center mb-6">
                    
                     {!showAdvisor && (
                         <button 
                             onClick={() => setShowAdvisor(true)}
-                            className="hidden lg:flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer"
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer shadow-sm w-full lg:w-auto justify-center"
                         >
                             <BookOpen size={16} /> Course Advisor
                         </button>
@@ -57,38 +68,19 @@ const CourseList = () => {
                                 />
                             ))}
                         </div>
-                        {totalPages > 1 && (
-                            <div className="flex justify-center items-center gap-3 mt-6 py-4 border-t border-slate-100">
-                                <button 
-                                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                                    disabled={page === 1}
-                                    className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronLeft size={20} />
-                                </button>
-                                <span className="text-sm font-semibold text-slate-600 min-w-[90px] text-center">
-                                    Page {page} of {totalPages}
-                                </span>
-                                <button 
-                                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                                    disabled={page === totalPages}
-                                    className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronRight size={20} />
-                                </button>
-                            </div>
-                        )}
+                        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
                     </>
                 )}
             </div>
+            
             {showAdvisor && (
-                <div className="lg:col-span-1 hidden lg:block relative">
+                <div className="lg:col-span-1 block relative w-full lg:w-auto">
                     <button 
                         onClick={() => setShowAdvisor(false)} 
-                        className="absolute -left-3 top-10 w-7 h-7 bg-white border border-slate-200 shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 z-10 cursor-pointer"
+                        className="absolute -left-3 lg:-left-3 top-0 lg:top-10 w-8 h-8 bg-white border border-slate-200 shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 z-50 cursor-pointer"
                         title="Close Advisor"
                     >
-                        <X size={14} />
+                        <X size={16} />
                     </button>
                     <CourseAdvisor onEnroll={handleEnroll} />
                 </div>

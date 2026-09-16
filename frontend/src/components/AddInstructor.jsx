@@ -13,9 +13,14 @@ const AddInstructor = () => {
             setMessage('Instructor added successfully!');
             setIsSuccess(true);
             setFormData({ name: '', email: '', password: '', securityCode: '' });
+            setTimeout(() => {
+                setMessage('');
+                setIsSuccess(false);
+            }, 3000);
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to add instructor');
             setIsSuccess(false);
+            setTimeout(() => setMessage(''), 3000);
         }
     };
 
@@ -26,8 +31,8 @@ const AddInstructor = () => {
             </h3>
             
             {message && (
-                <div className={`p-4 rounded-md text-sm font-medium mb-6 border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                    {message}
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                   {message}
                 </div>
             )}
 

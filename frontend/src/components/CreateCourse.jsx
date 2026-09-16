@@ -39,8 +39,8 @@ const CreateCourse = () => {
             </div>
             
             {message && (
-                <div className={`p-4 mb-6 rounded-md text-sm font-medium border ${isSuccess ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
-                    {message}
+                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                   {message}
                 </div>
             )}
 
@@ -66,10 +66,10 @@ const CreateCourse = () => {
                             />
                         </div>
                         <div className="form-group mb-0">
-                            <label className="form-label">General Announcements</label>
+                            <label className="form-label">Course content</label>
                             <textarea 
                                 value={content} onChange={(e) => setContent(e.target.value)} rows="2"
-                                placeholder="Welcome messages or syllabus info..."
+                                placeholder=" syllabus info..."
                                 className="form-input resize-none"
                             />
                         </div>

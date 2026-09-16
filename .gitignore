@@ -5,3 +5,11 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 
+
+dist/
+build/
+dist-ssr/
+*.local
+
+# Logs
+*.log

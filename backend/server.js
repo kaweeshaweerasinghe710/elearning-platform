@@ -24,6 +24,13 @@ app.use('/api/enrollments', enrollmentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/chat', chatRoutes);
 
+const _dirname = path.resolve();
+app.use(express.static(path.join(_dirname, '../frontend/dist')));
+
+app.use((req, res) => {
+    res.sendFile(path.resolve(_dirname, '../frontend/dist/index.html'));
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
