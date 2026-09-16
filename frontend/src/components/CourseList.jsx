@@ -27,14 +27,14 @@ const CourseList = () => {
     };
 
     return (
-        <div className={`grid grid-cols-1 ${showAdvisor ? 'xl:grid-cols-4' : 'xl:grid-cols-1'} gap-6 items-start`}>
-            <div className={`${showAdvisor ? 'xl:col-span-3' : 'xl:col-span-1'} list-container transition-all duration-300`}>
-                <div className="list-header flex justify-between items-center">
-                    <h3 className="list-title">Explore Courses</h3>
+        <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
+            <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
+                <div className="list-header flex justify-end items-center mb-6">
+                   
                     {!showAdvisor && (
                         <button 
                             onClick={() => setShowAdvisor(true)}
-                            className="hidden xl:flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer"
+                            className="hidden lg:flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer"
                         >
                             <BookOpen size={16} /> Course Advisor
                         </button>
@@ -82,7 +82,7 @@ const CourseList = () => {
                 )}
             </div>
             {showAdvisor && (
-                <div className="xl:col-span-1 hidden xl:block relative">
+                <div className="lg:col-span-1 hidden lg:block relative">
                     <button 
                         onClick={() => setShowAdvisor(false)} 
                         className="absolute -left-3 top-10 w-7 h-7 bg-white border border-slate-200 shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 z-10 cursor-pointer"
