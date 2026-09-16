@@ -49,9 +49,7 @@ const Login = () => {
                 <div className="flex justify-between items-center px-1">
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" className="w-3.5 h-3.5 rounded border-gray-300 text-primary focus:ring-primary" />
-                        <span className="text-[11px] text-gray-500 font-medium">Remember me</span>
                     </label>
-                    <span className="text-[11px] text-gray-500 hover:text-primary font-medium cursor-pointer">Forgot Password?</span>
                 </div>
 
                 <button type="submit" className="auth-btn w-full">

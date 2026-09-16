@@ -66,7 +66,7 @@ const CreateCourse = () => {
                             />
                         </div>
                         <div className="form-group mb-0">
-                            <label className="form-label">General Announcements</label>
+                            <label className="form-label">Course content</label>
                             <textarea 
                                 value={content} onChange={(e) => setContent(e.target.value)} rows="2"
                                 placeholder="Welcome messages or syllabus info..."
