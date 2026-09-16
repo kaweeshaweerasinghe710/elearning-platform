@@ -6,7 +6,7 @@ const HeroIllustration = () => {
             <div className="absolute bottom-[-20%] w-[65vh] h-[65vh] rounded-full border-[20px] border-white/5 pointer-events-none z-0"></div>
             <div className="absolute bottom-[-30%] w-[90vh] h-[90vh] rounded-full border-[20px] border-white/5 pointer-events-none z-0"></div>
             <img 
-                src="/student.png" 
+                src="/student.jpg" 
                 alt="Student" 
                 className="relative z-10 h-full w-auto object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.2)]"
             />

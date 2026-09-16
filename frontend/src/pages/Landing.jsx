@@ -10,7 +10,7 @@ const Landing = () => {
     const [activeModal, setActiveModal] = useState(null); 
 
     return (
-        <div className="h-screen w-full bg-gradient-to-br from-blue-400 via-blue-400 to-blue-500 relative overflow-hidden font-sans flex flex-col">
+        <div className="h-screen w-full bg-primary relative overflow-hidden font-sans flex flex-col">
             <style>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0px); }
