@@ -28,7 +28,7 @@ const MyEnrollments = () => {
     return (
         <div>
             {message && (
-                <div className={`mb-6 p-4 rounded-xl shadow-sm border font-semibold ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                <div className={`mb-4 text-[13px] font-bold ${message.type === 'success' ? 'text-emerald-600' : 'text-red-600'}`}>
                     {message.text}
                 </div>
             )}
@@ -73,7 +73,8 @@ const MyEnrollments = () => {
                                                 const result = await unenroll(enrollment.course?._id);
                                                 if (result.success) {
                                                     setMessage({ type: 'success', text: 'Successfully unenrolled' });
-                                                    setTimeout(() => window.location.reload(), 1500);
+                                                    window.dispatchEvent(new Event('syncEnrollments'));
+                                                    setTimeout(() => setMessage(null), 3000);
                                                 } else {
                                                     setMessage({ type: 'error', text: result.message });
                                                     setTimeout(() => setMessage(null), 3000);

@@ -15,7 +15,8 @@ const CourseList = () => {
         const result = await enroll(courseId);
         if (result.success) {
             setEnrollMessage({ type: 'success', text: 'Successfully enrolled in the course! 🎉' });
-            setTimeout(() => window.location.reload(), 1500); 
+            window.dispatchEvent(new Event('syncEnrollments'));
+            setTimeout(() => setEnrollMessage(null), 3000);
         } else {
             setEnrollMessage({ type: 'error', text: result.message });
             setTimeout(() => setEnrollMessage(null), 3000);
@@ -32,7 +33,7 @@ const CourseList = () => {
         <div className={`grid grid-cols-1 ${showAdvisor ? 'lg:grid-cols-4' : 'lg:grid-cols-1'} gap-6 items-start`}>
             <div className={`${showAdvisor ? 'lg:col-span-3' : 'lg:col-span-1'} list-container transition-all duration-300`}>
                 {enrollMessage && (
-                    <div className={`mb-6 p-4 rounded-xl shadow-sm border font-semibold ${enrollMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                    <div className={`mb-4 text-[13px] font-bold ${enrollMessage.type === 'success' ? 'text-emerald-600' : 'text-red-600'}`}>
                         {enrollMessage.text}
                     </div>
                 )}

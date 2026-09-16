@@ -20,7 +20,13 @@ export const useEnrollments = () => {
                 setLoading(false);
             }
         };
+        
         fetchMyEnrollments();
+
+        const handleSync = () => fetchMyEnrollments();
+        window.addEventListener('syncEnrollments', handleSync);
+        
+        return () => window.removeEventListener('syncEnrollments', handleSync);
     }, [page]);
 
     const unenroll = async (courseId) => {
