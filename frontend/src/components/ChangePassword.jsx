@@ -8,6 +8,13 @@ const ChangePassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (formData.newPassword.length < 6) {
+            setMessage("New password must be at least 6 characters long");
+            setIsSuccess(false);
+            return;
+        }
+
         if (formData.newPassword !== formData.confirmPassword) {
             setMessage("New passwords do not match!");
             setIsSuccess(false);
