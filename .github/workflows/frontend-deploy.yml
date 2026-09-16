@@ -28,6 +28,9 @@ jobs:
         working-directory: ./frontend
 
       - name: Build frontend
+        env:
+          VITE_GOOGLE_CLIENT_ID: "781175488258-6nbe2tvspmc3p2dk42dkt7t94scf6p8d.apps.googleusercontent.com"
+          VITE_API_URL: "http://16.176.96.56:5000/api"
         run: npm run build
         working-directory: ./frontend
 
