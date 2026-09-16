@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
@@ -13,7 +13,21 @@ import ChangePassword from '../components/ChangePassword';
 
 const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
-    const [activeTab, setActiveTab] = useState(user?.role === 'instructor' ? 'manage' : 'courses');
+    
+    const [activeTab, setActiveTab] = useState(() => {
+        const savedTab = localStorage.getItem('dashboard_active_tab');
+        const role = user?.role;
+        
+        if (savedTab) {
+            if (role === 'student' && ['courses', 'enrollments', 'settings'].includes(savedTab)) return savedTab;
+            if (role === 'instructor' && ['manage', 'create', 'settings'].includes(savedTab)) return savedTab;
+        }
+        return role === 'instructor' ? 'manage' : 'courses';
+    });
+
+    useEffect(() => {
+        localStorage.setItem('dashboard_active_tab', activeTab);
+    }, [activeTab]);
 
     if (!user) return <Navigate to="/login" />;
 
