@@ -16,7 +16,7 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
 
     return (
         <div className="nav-wrapper">
-            <nav className="nav-bar">
+            <nav className="px-3 sm:px-6 py-2 sm:h-16 flex flex-wrap items-center justify-between gap-y-2">
                 
                 {/* Left: Logo */}
                 <div className="flex items-center gap-3">
@@ -26,7 +26,7 @@ const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
                         <span className="text-[10px] text-slate-500 font-medium">E-Learning Platform</span>
                     </div>
                 </div>
-                <div className="hidden md:flex items-center gap-1">
+                <div className="flex items-center gap-1 order-3 sm:order-2 w-full sm:w-auto overflow-x-auto justify-center pb-1 sm:pb-0 scrollbar-hide">
                     {user.role === 'student' ? (
                         <>
                             <NavLink active={activeTab === 'courses'} onClick={() => setActiveTab('courses')} icon={<Layout size={18} />}>Explore Courses</NavLink>

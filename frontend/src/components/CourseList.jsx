@@ -45,7 +45,7 @@ const CourseList = () => {
                     {!showAdvisor && (
                         <button 
                             onClick={() => setShowAdvisor(true)}
-                            className="hidden lg:flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer"
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold text-sm rounded-lg border border-blue-100 transition-colors cursor-pointer shadow-sm w-full lg:w-auto justify-center"
                         >
                             <BookOpen size={16} /> Course Advisor
                         </button>
@@ -72,14 +72,15 @@ const CourseList = () => {
                     </>
                 )}
             </div>
+            
             {showAdvisor && (
-                <div className="lg:col-span-1 hidden lg:block relative">
+                <div className="lg:col-span-1 block relative w-full lg:w-auto">
                     <button 
                         onClick={() => setShowAdvisor(false)} 
-                        className="absolute -left-3 top-10 w-7 h-7 bg-white border border-slate-200 shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 z-10 cursor-pointer"
+                        className="absolute -left-3 lg:-left-3 top-0 lg:top-10 w-8 h-8 bg-white border border-slate-200 shadow-md rounded-full flex items-center justify-center text-slate-500 hover:text-slate-800 z-50 cursor-pointer"
                         title="Close Advisor"
                     >
-                        <X size={14} />
+                        <X size={16} />
                     </button>
                     <CourseAdvisor onEnroll={handleEnroll} />
                 </div>
