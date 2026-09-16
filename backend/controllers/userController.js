@@ -1,157 +1,67 @@
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
+const userService = require('../services/userService');
 
 const registerUser = async (req, res) => {
     try {
         const { name, email, password, role } = req.body;
-        
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-        const user = await User.create({
-            name,
-            email,
-            password,
-            role: role || 'student' 
-        });
-
-        if (user) {
-            res.status(201).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
-            });
-        } else {
-            res.status(400).json({ message: 'Invalid user data' });
-        }
+        const result = await userService.register(name, email, password, role);
+        res.status(201).json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const status = error.message === 'User already exists' ? 400 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
-
 
 const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (user && (await user.matchPassword(password))) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
-            });
-        } else {
-            res.status(401).json({ message: 'Invalid email or password' });
-        }
+        const result = await userService.authenticate(email, password);
+        res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const status = error.message === 'Invalid email or password' ? 401 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
-
-
 
 const googleAuth = async (req, res) => {
     try {
         const { credential } = req.body; 
-        const ticket = await client.verifyIdToken({
-            idToken: credential,
-            audience: process.env.GOOGLE_CLIENT_ID,
-        });
-        
-        const payload = ticket.getPayload();
-        const { name, email } = payload;
-
-        let user = await User.findOne({ email });
-
-        if (user) {
-            res.json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
-            });
-        } else {
-            const randomPassword = Math.random().toString(36).slice(-8) + Date.now();
-            
-            user = await User.create({
-                name,
-                email,
-                password: randomPassword, 
-                role: 'student' 
-            });
-
-            res.status(201).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                token: generateToken(user._id, user.role),
-            });
-        }
+        const result = await userService.googleAuthenticate(credential);
+        const status = result.isNew ? 201 : 200;
+        delete result.isNew;
+        res.status(status).json(result);
     } catch (error) {
         console.error(error);
         res.status(401).json({ message: 'Google Authentication Failed' });
     }
 };
 
-
 const addInstructor = async (req, res) => {
     try {
         const { name, email, password, securityCode } = req.body;
-        
-        if (securityCode !== process.env.INSTRUCTOR_SECRET) {
-            return res.status(403).json({ message: 'Invalid Admin Security Code' });
-        }
-
-        const userExists = await User.findOne({ email });
-        
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
-        const user = await User.create({
-            name,
-            email,
-            password,
-            role: 'instructor' 
-        });
-
+        await userService.addInstructorService(name, email, password, securityCode);
         res.status(201).json({ message: 'Instructor added successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        let status = 500;
+        if (error.message === 'Invalid Admin Security Code') status = 403;
+        else if (error.message === 'User already exists') status = 400;
+        res.status(status).json({ message: error.message });
     }
 };
 
 const changePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword } = req.body;
-        const user = await User.findById(req.user._id);
-
-        if (!(await user.matchPassword(oldPassword))) {
-            return res.status(400).json({ message: 'Incorrect current password' });
-        }
-
-        user.password = newPassword; 
-        await user.save(); 
-        
+        await userService.changeUserPassword(req.user._id, oldPassword, newPassword);
         res.json({ message: 'Password updated successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const status = error.message === 'Incorrect current password' ? 400 : 500;
+        res.status(status).json({ message: error.message });
     }
 };
 
 const getAllInstructors = async (req, res) => {
     try {
-        const instructors = await User.find({ role: 'instructor' }).select('-password -__v');
+        const instructors = await userService.getAllInstructorsService();
         res.json(instructors);
     } catch (error) {
         res.status(500).json({ message: error.message });

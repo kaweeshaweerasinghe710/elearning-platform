@@ -3,7 +3,8 @@ import { useCourses } from '../hooks/useCourses';
 import { useEnrollments } from '../hooks/useEnrollments';
 import CourseCard from './CourseCard'; 
 import CourseAdvisor from './CourseAdvisor';
-import { ChevronLeft, ChevronRight, BookOpen, X } from 'lucide-react';
+import Pagination from './course-list/Pagination';
+import { BookOpen, X } from 'lucide-react';
 
 const CourseList = () => {
     const { courses, loading: coursesLoading, enroll, page, setPage, totalPages } = useCourses();
@@ -67,27 +68,7 @@ const CourseList = () => {
                                 />
                             ))}
                         </div>
-                        {totalPages > 1 && (
-                            <div className="flex justify-center items-center gap-3 mt-6 py-4 border-t border-slate-100">
-                                <button 
-                                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                                    disabled={page === 1}
-                                    className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronLeft size={20} />
-                                </button>
-                                <span className="text-sm font-semibold text-slate-600 min-w-[90px] text-center">
-                                    Page {page} of {totalPages}
-                                </span>
-                                <button 
-                                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                                    disabled={page === totalPages}
-                                    className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                                >
-                                    <ChevronRight size={20} />
-                                </button>
-                            </div>
-                        )}
+                        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
                     </>
                 )}
             </div>
