@@ -12,7 +12,7 @@ const ContactUs = ({ onClose }) => {
                     <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
                     <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
                     
-                    <h3 className="text-3xl font-bold mb-6 z-10">Get In Touch ✉️</h3>
+                    <h3 className="text-3xl font-bold mb-6 z-10">Get In Touch </h3>
                     <p className="text-white/80 font-medium mb-10 z-10">
                         Have questions? We'd love to hear from you. Here are the ways you can reach our team.
                     </p>
