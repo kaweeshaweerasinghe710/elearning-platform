@@ -28,8 +28,10 @@ const Register = () => {
         if (name.trim().length < 3) {
             return setError('Name must be at least 3 characters long');
         }
-        if (password.length < 6) {
-            return setError('Password must be at least 6 characters long');
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?-]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return setError('Password must be at least 6 characters, with 1 simple letter & 1 symbol');
         }
 
         try {
