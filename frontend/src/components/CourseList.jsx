@@ -51,7 +51,7 @@ const CourseList = () => {
                         placeholder="Search courses..." 
                         value={search} 
                         onChange={(e) => setSearch(e.target.value)} 
-                        className="p-2 bg-white border border-gray-200 rounded-lg text-sm w-full md:w-64 outline-none focus:ring-1 focus:ring-primary shadow-sm"
+                        className="p-2.5 bg-white border border-gray-200 rounded-lg text-sm w-full md:w-96 outline-none focus:ring-1 focus:ring-primary shadow-sm"
                     />
                     {!showAdvisor && (
                         <button 
