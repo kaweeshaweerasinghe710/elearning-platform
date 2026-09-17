@@ -7,6 +7,7 @@ import { useRegister } from '../hooks/useRegister';
 const Register = () => {
     const { 
         name, setName, email, setEmail, password, setPassword,
+        role, setRole,
         showPassword, setShowPassword, error, setError,
         registerUser, handleGoogleLogin 
     } = useRegister();
@@ -27,12 +28,29 @@ const Register = () => {
                 
                 <div className="relative">
                     <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Password" className="auth-input pr-16" />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide Password" : "Show Password"} className="password-toggle-btn">
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide Password" : "Show Password"} className="password-toggle-btn absolute right-4 top-1/2 -translate-y-1/2">
                         {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                     </button>
                 </div>
 
-                <button type="submit" className="auth-btn w-full">Sign Up</button>
+                <div className="flex bg-slate-100 p-1 rounded-xl">
+                    <button
+                        type="button"
+                        onClick={() => setRole('student')}
+                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${role === 'student' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    >
+                        Student
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setRole('instructor')}
+                        className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${role === 'instructor' ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    >
+                        Instructor
+                    </button>
+                </div>
+
+                <button type="submit" className="auth-btn w-full mt-2">Sign Up</button>
             </form>
 
             <div className="auth-google-wrapper">

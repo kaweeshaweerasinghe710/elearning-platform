@@ -116,22 +116,6 @@ const googleAuthenticate = async (credential) => {
     }
 };
 
-const addInstructorService = async (name, email, password, securityCode) => {
-    if (securityCode !== process.env.INSTRUCTOR_SECRET) {
-        throw new Error('Invalid Admin Security Code');
-    }
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-        throw new Error('User already exists');
-    }
-    await User.create({
-        name,
-        email,
-        password,
-        role: 'instructor' 
-    });
-};
-
 const changeUserPassword = async (userId, oldPassword, newPassword) => {
     const user = await User.findById(userId);
     if (!(await user.matchPassword(oldPassword))) {
@@ -150,7 +134,6 @@ module.exports = {
     verifyEmailService,
     authenticate,
     googleAuthenticate,
-    addInstructorService,
     changeUserPassword,
     getAllInstructorsService
 };

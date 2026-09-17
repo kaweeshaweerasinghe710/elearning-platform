@@ -8,6 +8,7 @@ export const useRegister = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('student');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
     
@@ -21,7 +22,7 @@ export const useRegister = () => {
         if (validationError) return setError(validationError);
 
         try {
-            const { data } = await api.post('/users/register', { name, email, password, role: 'student' });
+            const { data } = await api.post('/users/register', { name, email, password, role });
             if (data.needsVerification) {
                 navigate(`/verify-email?email=${encodeURIComponent(email)}`);
             } else {
@@ -47,6 +48,7 @@ export const useRegister = () => {
         name, setName,
         email, setEmail,
         password, setPassword,
+        role, setRole,
         showPassword, setShowPassword,
         error, setError,
         registerUser,

@@ -45,19 +45,6 @@ const googleAuth = async (req, res) => {
     }
 };
 
-const addInstructor = async (req, res) => {
-    try {
-        const { name, email, password, securityCode } = req.body;
-        await userService.addInstructorService(name, email, password, securityCode);
-        res.status(201).json({ message: 'Instructor added successfully' });
-    } catch (error) {
-        let status = 500;
-        if (error.message === 'Invalid Admin Security Code') status = 403;
-        else if (error.message === 'User already exists') status = 400;
-        res.status(status).json({ message: error.message });
-    }
-};
-
 const changePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword } = req.body;
@@ -78,4 +65,4 @@ const getAllInstructors = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, verifyEmail, authUser, googleAuth, addInstructor, changePassword, getAllInstructors };
+module.exports = { registerUser, verifyEmail, authUser, googleAuth, changePassword, getAllInstructors };

@@ -7,7 +7,6 @@ import CourseList from '../components/CourseList';
 import CreateCourse from '../components/CreateCourse';
 import MyEnrollments from '../components/MyEnrollments';
 import InstructorCourses from '../components/InstructorCourses';
-import AddInstructor from '../components/AddInstructor';
 import ChangePassword from '../components/ChangePassword';
 
 const Dashboard = () => {
@@ -67,11 +66,6 @@ const Dashboard = () => {
                             <div className="w-full max-w-md mx-auto md:mx-0">
                                 <ChangePassword />
                             </div>
-                            {user.role === 'instructor' && (
-                                <div className="w-full max-w-md mx-auto md:mx-0">
-                                    <AddInstructor />
-                                </div>
-                            )}
                         </div>
                     </div>
             </main>
