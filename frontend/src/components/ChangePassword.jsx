@@ -1,4 +1,5 @@
 import { useChangePassword } from '../hooks/useChangePassword';
+import Button from './Button';
 
 const ChangePassword = () => {
     const { formData, setFormData, message, isSuccess, changePassword } = useChangePassword();
@@ -45,7 +46,7 @@ const ChangePassword = () => {
                     />
                 </div>
                 <div className="mt-auto pt-4">
-                    <button type="submit" className="btn-primary w-full">Update Password</button>
+                    <Button type="submit" variant="primary" className="w-full">Update Password</Button>
                 </div>
             </form>
         </div>

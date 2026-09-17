@@ -1,4 +1,5 @@
 import { useAddInstructor } from '../hooks/useAddInstructor';
+import Button from './Button';
 
 const AddInstructor = () => {
     const { formData, setFormData, message, isSuccess, addInstructor } = useAddInstructor();
@@ -56,7 +57,7 @@ const AddInstructor = () => {
                     />
                 </div>
                 <div className="mt-auto pt-4">
-                    <button type="submit" className="btn-primary w-full">Add Instructor</button>
+                    <Button type="submit" variant="primary" className="w-full">Add Instructor</Button>
                 </div>
             </form>
         </div>

@@ -195,8 +195,6 @@
   .toast-alert         { @apply fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform drop-shadow-sm; }
   .toast-success       { @apply text-green-600; }
   .toast-error         { @apply text-red-600; }
-  .verify-error-msg    { @apply text-red-500 bg-red-100 p-2.5 rounded-md mb-5 text-sm font-bold text-center; }
-  
   .modal-overlay       { @apply fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4; }
   .modal-window        { @apply relative w-full max-w-4xl h-[85vh] md:h-[600px] bg-white rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col p-8 md:p-12; }
   .modal-close-btn     { @apply absolute top-6 right-6 w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-red-500 transition-colors z-20 cursor-pointer; }
