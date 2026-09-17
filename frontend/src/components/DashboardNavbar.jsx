@@ -1,18 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Layout, BookOpen, PlusCircle, Settings } from 'lucide-react';
+import { useClickOutside } from '../hooks/useClickOutside';
 
 const DashboardNavbar = ({ user, logout, activeTab, setActiveTab }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    
+    useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
     const renderTabs = () => (
         <>

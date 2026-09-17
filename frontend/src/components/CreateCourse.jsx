@@ -1,35 +1,15 @@
-import { useState } from 'react';
-import api from '../utils/api';
+import { useCreateCourse } from '../hooks/useCreateCourse';
 import TimeSlotBuilder from './TimeSlotBuilder';
 
 const CreateCourse = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [content, setContent] = useState(''); 
-    const [schedule, setSchedule] = useState({ startDate: '', weeklySlots: [] });
-    
-    const [message, setMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await api.post('/courses', { title, description, content, schedule });
-            setMessage('Course published successfully!');
-            setIsSuccess(true);
-            setTimeout(() => {
-                setTitle('');
-                setDescription('');
-                setContent('');
-                setSchedule({ startDate: '', weeklySlots: [] });
-                setMessage('');
-                setIsSuccess(false);
-            }, 3000);
-        } catch (error) {
-            setMessage(error.response?.data?.message || 'Failed to create course');
-            setIsSuccess(false);
-        }
-    };
+    const {
+        title, setTitle,
+        description, setDescription,
+        content, setContent,
+        schedule, setSchedule,
+        message, isSuccess,
+        createCourse
+    } = useCreateCourse();
 
     return (
         <div className="form-container mb-12">
@@ -39,12 +19,12 @@ const CreateCourse = () => {
             </div>
             
             {message && (
-                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`toast-alert ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
                    {message}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={createCourse} className="space-y-8">
                 
                 <div className="border border-slate-100 rounded-xl p-6 bg-slate-50">
                     <h3 className="text-lg font-bold text-slate-900 mb-6">Basic Information</h3>

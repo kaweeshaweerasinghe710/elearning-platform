@@ -1,40 +1,15 @@
-import { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import api from '../utils/api';
+import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google'; 
 import AuthLayout from '../components/AuthLayout';
 import { Eye, EyeOff } from 'lucide-react';
+import { useLogin } from '../hooks/useLogin';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState(null);
-    
-    const { login } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return setError('Please enter a valid email address');
-        }
-
-        if (password.length < 6) {
-            return setError('Password must be at least 6 characters long');
-        }
-
-        try {
-            const { data } = await api.post('/users/login', { email, password });
-            login(data);
-            navigate('/dashboard');
-        } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
-        }
-    };
+    const { 
+        email, setEmail, password, setPassword,
+        showPassword, setShowPassword, error, setError,
+        loginUser, handleGoogleLogin 
+    } = useLogin();
 
     return (
         <AuthLayout 
@@ -42,42 +17,29 @@ const Login = () => {
             subtitle="To Learnify"
             description="Join thousands of learners gaining new skills, advancing careers, and shaping a better tomorrow. Access top-tier courses and expert instructors all in one place."
         >
-            <h2 className="text-3xl font-extrabold text-primary mb-2">Sign in</h2>
-            <p className="text-[11px] text-gray-400 mb-8 font-medium">Please login to your account to continue</p>
-            {error && <div className="bg-red-50 text-red-500 p-3 rounded-lg text-xs text-center mb-5 border border-red-100">{error}</div>}
+            <h2 className="auth-title">Sign in</h2>
+            <p className="auth-subtitle">Please login to your account to continue</p>
+            {error && <div className="auth-error">{error}</div>}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={loginUser} className="space-y-5">
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Email Address" className="auth-input" />
                 
                 <div className="relative">
                     <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Password" className="auth-input pr-16" />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide Password" : "Show Password"} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors">
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} title={showPassword ? "Hide" : "Show"} className="password-toggle-btn">
                         {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                     </button>
                 </div>
 
-
-
-                <button type="submit" className="auth-btn w-full">
-                    Sign In
-                </button>
+                <button type="submit" className="auth-btn w-full">Sign In</button>
             </form>
 
-            <div className="mt-6 flex justify-center hover:scale-105 transition-transform duration-300">
-                <GoogleLogin
-                    onSuccess={async (res) => {
-                        try {
-                            const { data } = await api.post('/users/google', { credential: res.credential });
-                            login(data);
-                            navigate('/dashboard');
-                        } catch { setError('Google Login Failed.'); }
-                    }}
-                    onError={() => setError('Google Login Failed.')}
-                />
+            <div className="auth-google-wrapper">
+                <GoogleLogin onSuccess={(res) => handleGoogleLogin(res.credential)} onError={() => setError('Google Login Failed.')} />
             </div>
 
-            <p className="text-center text-gray-400 mt-8 text-[11px] font-medium">
-                Don't have an account? <Link to="/register" className="text-primary font-bold hover:underline">Sign up</Link>
+            <p className="auth-footer-text">
+                Don't have an account? <Link to="/register" className="auth-link">Sign up</Link>
             </p>
         </AuthLayout>
     );

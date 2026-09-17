@@ -7,7 +7,6 @@ import CourseList from '../components/CourseList';
 import CreateCourse from '../components/CreateCourse';
 import MyEnrollments from '../components/MyEnrollments';
 import InstructorCourses from '../components/InstructorCourses';
-import AddInstructor from '../components/AddInstructor';
 import ChangePassword from '../components/ChangePassword';
 
 const Dashboard = () => {
@@ -63,9 +62,10 @@ const Dashboard = () => {
                     )}
 
                     <div style={{ display: activeTab === 'settings' ? 'block' : 'none' }}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
-                            <ChangePassword />
-                            {user.role === 'instructor' && <AddInstructor />}
+                        <div className="flex flex-col md:flex-row justify-center items-start gap-8 max-w-6xl mx-auto w-full">
+                            <div className="w-full max-w-md mx-auto md:mx-0">
+                                <ChangePassword />
+                            </div>
                         </div>
                     </div>
             </main>

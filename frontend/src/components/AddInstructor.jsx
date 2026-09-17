@@ -1,42 +1,20 @@
-import { useState } from 'react';
-import api from '../utils/api';
+import { useAddInstructor } from '../hooks/useAddInstructor';
+import Button from './Button';
 
 const AddInstructor = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', password: '', securityCode: '' });
-    const [message, setMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await api.post('/users/add-instructor', formData);
-            setMessage('Instructor added successfully!');
-            setIsSuccess(true);
-            setFormData({ name: '', email: '', password: '', securityCode: '' });
-            setTimeout(() => {
-                setMessage('');
-                setIsSuccess(false);
-            }, 3000);
-        } catch (error) {
-            setMessage(error.response?.data?.message || 'Failed to add instructor');
-            setIsSuccess(false);
-            setTimeout(() => setMessage(''), 3000);
-        }
-    };
+    const { formData, setFormData, message, isSuccess, addInstructor } = useAddInstructor();
 
     return (
         <div className="form-container">
-            <h3 className="form-title mb-6">
-                 Add New Instructor
-            </h3>
+            <h3 className="form-title mb-6">Add New Instructor</h3>
             
             {message && (
-                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`toast-alert ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
                    {message}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col flex-1 space-y-4">
+            <form onSubmit={addInstructor} className="flex flex-col flex-1 space-y-4">
                 <div className="form-group">
                     <label className="form-label">Name</label>
                     <input 
@@ -79,9 +57,7 @@ const AddInstructor = () => {
                     />
                 </div>
                 <div className="mt-auto pt-4">
-                    <button type="submit" className="btn-primary w-full">
-                        Add Instructor
-                    </button>
+                    <Button type="submit" variant="primary" className="w-full">Add Instructor</Button>
                 </div>
             </form>
         </div>

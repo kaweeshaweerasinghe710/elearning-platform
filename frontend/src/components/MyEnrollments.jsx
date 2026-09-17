@@ -35,7 +35,7 @@ const MyEnrollments = () => {
     return (
         <div>
             {message && (
-                <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-[100] text-sm font-semibold transition-all duration-300 transform scale-100 opacity-100 animate-in fade-in slide-in-from-top-4 drop-shadow-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                <div className={`toast-alert ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
                      {message.text}
                 </div>
             )}
