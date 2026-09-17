@@ -60,7 +60,12 @@ const authenticate = async (email, password) => {
     if (!(await user.matchPassword(password))) throw new Error('Invalid email or password');
     
     if (user.isEmailVerified === false) {
-        throw new Error('Please verify your email address first');
+        if (!user.verificationCode) {
+            user.isEmailVerified = true;
+            await user.save();
+        } else {
+            throw new Error('Please verify your email address first');
+        }
     }
 
     return {
