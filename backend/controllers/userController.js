@@ -11,6 +11,16 @@ const registerUser = async (req, res) => {
     }
 };
 
+const verifyEmail = async (req, res) => {
+    try {
+        const { email, code } = req.body;
+        const result = await userService.verifyEmailService(email, code);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -68,4 +78,4 @@ const getAllInstructors = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, authUser, googleAuth, addInstructor, changePassword, getAllInstructors };
+module.exports = { registerUser, verifyEmail, authUser, googleAuth, addInstructor, changePassword, getAllInstructors };

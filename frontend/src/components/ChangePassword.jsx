@@ -9,10 +9,11 @@ const ChangePassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (formData.newPassword.length < 6) {
-            setMessage("New password must be at least 6 characters long");
+        const passwordRegex = /^(?=.*[a-z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?-]).{8,}$/;
+        if (!passwordRegex.test(formData.newPassword)) {
+            setMessage("New password must be at least 6 characters, with 1 simple letter & 1 symbol");
             setIsSuccess(false);
-            setTimeout(() => setMessage(''), 3000);
+            setTimeout(() => setMessage(''), 4000);
             return;
         }
 

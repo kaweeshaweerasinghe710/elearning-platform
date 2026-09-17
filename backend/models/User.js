@@ -21,9 +21,17 @@ const userSchema = new mongoose.Schema({
         default: 'student' 
     },
     enrolledCourses: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course'
-}]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    isEmailVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationCode: {
+        type: String,
+        default: null
+    }
 }, {
     timestamps: true 
 });

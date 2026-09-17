@@ -2,42 +2,74 @@ const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const { sendVerificationEmail } = require('../utils/mailer');
 
 const register = async (name, email, password, role) => {
     const userExists = await User.findOne({ email });
     if (userExists) {
         throw new Error('User already exists');
     }
+    
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+
     const user = await User.create({
         name,
         email,
         password,
-        role: role || 'student'
+        role: role || 'student',
+        verificationCode,
+        isEmailVerified: false
     });
+    
     if (user) {
+        sendVerificationEmail(email, verificationCode);
         return {
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
-            token: generateToken(user._id, user.role),
+            needsVerification: true,
+            message: 'Registration successful! Please check your email for the verification code.'
         };
     }
     throw new Error('Invalid user data');
 };
 
+const verifyEmailService = async (email, code) => {
+    const user = await User.findOne({ email });
+    if (!user) throw new Error('User not found');
+    if (user.isEmailVerified === true && !user.verificationCode) throw new Error('Email already verified');
+    if (user.verificationCode !== code) throw new Error('Invalid verification code');
+    
+    user.isEmailVerified = true;
+    user.verificationCode = null;
+    await user.save();
+    
+    return {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id, user.role),
+    };
+};
+
 const authenticate = async (email, password) => {
     const user = await User.findOne({ email });
-    if (user && (await user.matchPassword(password))) {
-        return {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id, user.role),
-        };
+    if (!user) throw new Error('Invalid email or password');
+    if (!(await user.matchPassword(password))) throw new Error('Invalid email or password');
+    
+    if (user.isEmailVerified === false) {
+        throw new Error('Please verify your email address first');
     }
-    throw new Error('Invalid email or password');
+
+    return {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id, user.role),
+    };
 };
 
 const googleAuthenticate = async (credential) => {
@@ -110,6 +142,7 @@ const getAllInstructorsService = async () => {
 
 module.exports = {
     register,
+    verifyEmailService,
     authenticate,
     googleAuthenticate,
     addInstructorService,

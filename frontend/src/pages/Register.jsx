@@ -28,14 +28,20 @@ const Register = () => {
         if (name.trim().length < 3) {
             return setError('Name must be at least 3 characters long');
         }
-        if (password.length < 6) {
-            return setError('Password must be at least 6 characters long');
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?-]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return setError('Password must be at least 6 characters, with 1 simple letter & 1 symbol');
         }
 
         try {
             const { data } = await api.post('/users/register', { name, email, password, role });
-            login(data);
-            navigate('/dashboard');
+            if (data.needsVerification) {
+                navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+            } else {
+                login(data);
+                navigate('/dashboard');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
         }

@@ -14,7 +14,7 @@ const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
     
     const [activeTab, setActiveTab] = useState(() => {
-        const savedTab = localStorage.getItem('dashboard_active_tab');
+        const savedTab = sessionStorage.getItem('dashboard_active_tab');
         const role = user?.role;
         
         if (savedTab) {
@@ -25,7 +25,7 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        localStorage.setItem('dashboard_active_tab', activeTab);
+        sessionStorage.setItem('dashboard_active_tab', activeTab);
     }, [activeTab]);
 
     if (!user) return <Navigate to="/login" />;
