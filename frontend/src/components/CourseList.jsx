@@ -5,6 +5,7 @@ import CourseCard from './CourseCard';
 import CourseAdvisor from './CourseAdvisor';
 import Pagination from './course-list/Pagination';
 import { BookOpen, X } from 'lucide-react';
+import ConfirmModal from './ConfirmModal';
 
 const CourseList = () => {
     const { courses, loading: coursesLoading, enroll, page, setPage, totalPages } = useCourses();
@@ -12,11 +13,14 @@ const CourseList = () => {
     const [showAdvisor, setShowAdvisor] = useState(false);
     const [enrollMessage, setEnrollMessage] = useState(null);
     const [newlyEnrolled, setNewlyEnrolled] = useState(new Set());
+    const [search, setSearch] = useState('');
+    const [confirmEnroll, setConfirmEnroll] = useState(null);
   
-    const handleEnroll = async (courseId) => {
-        const result = await enroll(courseId);
+    const handleConfirmEnroll = async () => {
+        if (!confirmEnroll) return;
+        const result = await enroll(confirmEnroll);
         if (result.success) {
-            setNewlyEnrolled(prev => new Set(prev).add(courseId));
+            setNewlyEnrolled(prev => new Set(prev).add(confirmEnroll));
             setEnrollMessage({ type: 'success', text: 'Successfully enrolled in the course' });
             window.dispatchEvent(new Event('syncEnrollments'));
             setTimeout(() => setEnrollMessage(null), 3000);
@@ -24,6 +28,7 @@ const CourseList = () => {
             setEnrollMessage({ type: 'error', text: result.message });
             setTimeout(() => setEnrollMessage(null), 3000);
         }
+        setConfirmEnroll(null);
     };
 
     if (coursesLoading && courses.length === 0) return <div className="text-center py-20 text-gray-500 font-bold">Loading courses...</div>;
@@ -40,8 +45,14 @@ const CourseList = () => {
                        {enrollMessage.text}
                     </div>
                 )}
-                <div className="list-header flex justify-end items-center mb-6">
-                   
+                <div className="list-header flex justify-between items-center mb-6 gap-4">
+                    <input 
+                        type="text" 
+                        placeholder="Search courses..." 
+                        value={search} 
+                        onChange={(e) => setSearch(e.target.value)} 
+                        className="p-2 bg-white border border-gray-200 rounded-lg text-sm w-full md:w-64 outline-none focus:ring-1 focus:ring-primary shadow-sm"
+                    />
                     {!showAdvisor && (
                         <button 
                             onClick={() => setShowAdvisor(true)}
@@ -58,12 +69,12 @@ const CourseList = () => {
                     </div>
                 ) : (
                     <>
-                        <div className="list-grid">
-                            {courses.map((course) => (
+                        <div className={`list-grid transition-opacity duration-300 ${coursesLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                            {courses.filter(c => c.title.toLowerCase().includes(search.toLowerCase())).map((course) => (
                                 <CourseCard 
                                     key={course._id} 
                                     course={course} 
-                                    onEnroll={handleEnroll} 
+                                    onEnroll={setConfirmEnroll} 
                                     isEnrolled={getIsEnrolled(course._id)}
                                 />
                             ))}
@@ -82,9 +93,18 @@ const CourseList = () => {
                     >
                         <X size={16} />
                     </button>
-                    <CourseAdvisor onEnroll={handleEnroll} />
+                    <CourseAdvisor onEnroll={setConfirmEnroll} />
                 </div>
             )}
+
+            <ConfirmModal 
+                isOpen={!!confirmEnroll}
+                title="Confirm Enrollment"
+                message="Are you sure you want to enroll in this course? You can unenroll at any time."
+                confirmText="Enroll"
+                onConfirm={handleConfirmEnroll}
+                onCancel={() => setConfirmEnroll(null)}
+            />
         </div>
     );
 };

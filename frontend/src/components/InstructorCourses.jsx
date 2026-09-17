@@ -3,10 +3,12 @@ import { useInstructorCourses } from '../hooks/useInstructorCourses';
 import InstructorCourseCard from './InstructorCourseCard';
 import CourseEditor from './CourseEditor';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ConfirmModal from './ConfirmModal';
 
 const InstructorCourses = () => {
     const { courses, loading, handleDelete, handleUpdate, page, setPage, totalPages, totalCourses } = useInstructorCourses();
     const [editingCourse, setEditingCourse] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(null);
 
     if (loading && courses.length === 0) return <div className="text-center py-20 text-slate-500 font-medium">Loading your courses...</div>;
     if (editingCourse) {
@@ -40,12 +42,12 @@ const InstructorCourses = () => {
                 </div>
             ) : (
                 <>
-                    <div className="list-grid">
+                    <div className={`list-grid transition-opacity duration-300 ${loading ? 'opacity-50 pointer-events-none' : ''}`}>
                         {courses.map(course => (
                             <InstructorCourseCard 
                                 key={course._id} 
                                 course={course} 
-                                onDelete={handleDelete}
+                                onDelete={setConfirmDelete}
                                 onUpdate={handleUpdate}
                                 onEdit={() => setEditingCourse(course)}
                             />
@@ -74,6 +76,19 @@ const InstructorCourses = () => {
                     )}
                 </>
             )}
+
+            <ConfirmModal 
+                isOpen={!!confirmDelete}
+                title="Delete Course?"
+                message="Are you sure you want to permanently delete this course? This action cannot be undone and will remove all student enrollments and materials."
+                confirmText="Delete"
+                isDanger={true}
+                onConfirm={async () => {
+                    await handleDelete(confirmDelete);
+                    setConfirmDelete(null);
+                }}
+                onCancel={() => setConfirmDelete(null)}
+            />
         </div>
     );
 };
