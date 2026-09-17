@@ -1,46 +1,23 @@
-import { useState, useEffect } from 'react';
-import api from '../utils/api';
+import { useInstructors } from '../hooks/useInstructors';
 
 const InstructorsModal = ({ onClose }) => {
-    const [instructors, setInstructors] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchInstructors = async () => {
-            try {
-                const { data } = await api.get('/users/instructors');
-                setInstructors(data);
-            } catch (err) {
-                setError(err.response?.data?.message || 'Failed to fetch instructors');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchInstructors();
-    }, []);
+    const { instructors, loading, error } = useInstructors();
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 animate-fade-in">
-            <div className="relative w-full max-w-4xl h-[85vh] md:h-[600px] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col p-8 md:p-12 scale-up">
-                <button 
-                    onClick={onClose}
-                    className="absolute top-6 right-6 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-red-500 transition-colors z-10"
-                >
-                    ✕
-                </button>
+        <div className="modal-overlay animate-fade-in">
+            <div className="modal-window scale-up">
+                <button onClick={onClose} className="modal-close-btn">✕</button>
 
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight text-center">
+                <h2 className="text-4xl font-extrabold text-slate-900 mb-2 tracking-tight text-center">
                     Meet Our Instructors
                 </h2>
-                <p className="text-gray-500 text-center mb-8">
+                <p className="text-slate-500 text-center mb-8">
                     Learn from industry experts and passionate educators.
                 </p>
 
                 <div className="overflow-y-auto flex-1 pr-2 custom-scrollbar">
                     {loading ? (
-                        <div className="flex justify-center items-center h-40 text-gray-500">
+                        <div className="flex justify-center items-center h-40 text-slate-500">
                             Loading instructors...
                         </div>
                     ) : error ? (
@@ -48,7 +25,7 @@ const InstructorsModal = ({ onClose }) => {
                             {error}
                         </div>
                     ) : instructors.length === 0 ? (
-                        <div className="flex justify-center items-center h-40 text-gray-500">
+                        <div className="flex justify-center items-center h-40 text-slate-500">
                             No instructors available yet.
                         </div>
                     ) : (
@@ -58,8 +35,8 @@ const InstructorsModal = ({ onClose }) => {
                                     <div className="w-20 h-20 bg-gradient-to-tr from-primary to-accent rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-md">
                                         {instructor.name.charAt(0).toUpperCase()}
                                     </div>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-1">{instructor.name}</h3>
-                                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{instructor.email}</p>
+                                    <h3 className="text-xl font-bold text-slate-900 mb-1">{instructor.name}</h3>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{instructor.email}</p>
                                 </div>
                             ))}
                         </div>

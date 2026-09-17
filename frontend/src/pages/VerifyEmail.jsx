@@ -36,7 +36,7 @@ const VerifyEmail = () => {
                 <h2 className="verify-title">Verify Email</h2>
                 <p className="verify-desc">We sent a 6-digit code to <strong>{email}</strong>. Enter it below to continue.</p>
                 
-                {error && <div style={{ color: '#ef4444', backgroundColor: '#fee2e2', padding: '10px', borderRadius: '5px', marginBottom: '20px', fontSize: '14px', fontWeight: 'bold' }}>{error}</div>}
+                {error && <div className="verify-error-msg">{error}</div>}
 
                 <form onSubmit={handleVerify}>
                     <input 

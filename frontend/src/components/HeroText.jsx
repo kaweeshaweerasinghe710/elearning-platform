@@ -9,7 +9,7 @@ const HeroText = () => {
 
             <p className="text-white/90 text-xs md:text-sm max-w-xl mx-auto leading-relaxed">
                 Join thousands of learners gaining new skills, advancing careers<br className="hidden md:block"/>
-                and shaping a better tomorrow—one lesson at a time.
+                and shaping a better tomorrow,one lesson at a time.
             </p>
         </div>
     );
