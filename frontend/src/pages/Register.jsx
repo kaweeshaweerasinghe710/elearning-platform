@@ -36,8 +36,12 @@ const Register = () => {
 
         try {
             const { data } = await api.post('/users/register', { name, email, password, role });
-            login(data);
-            navigate('/dashboard');
+            if (data.needsVerification) {
+                navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+            } else {
+                login(data);
+                navigate('/dashboard');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
         }
