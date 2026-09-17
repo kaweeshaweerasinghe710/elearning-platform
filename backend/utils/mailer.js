@@ -3,8 +3,7 @@ const nodemailer = require('nodemailer');
 const sendVerificationEmail = async (email, code) => {
     try {
         if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-            console.log(`[TESTING ENVS MISSING] Email sending bypassed. Target: ${email}, OTP: ${code}`);
-            return;
+            throw new Error('Email credentials are not configured in .env');
         }
 
         const transporter = nodemailer.createTransport({
@@ -30,8 +29,7 @@ const sendVerificationEmail = async (email, code) => {
         });
         console.log(`[SMTP] Verification email successfully sent to ${email}`);
     } catch (error) {
-        console.error("[SMTP ERROR] Could not send email: ", error);
-        console.log(`Fallback OTP logging for ${email}: ${code}`);
+        console.error("Email sending failed:", error);
     }
 };
 
