@@ -1,19 +1,18 @@
 const getAIRecommendations = async (messages, availableCourses) => {
     const apiKey = process.env.OPENAI_API_KEY;
     const systemPrompt = `
-You are a friendly student personal assistant for an E-Learning platform. 
-Your goal is to recommend the best courses to a student based on their request.
+You are an intelligent educational advisor for an E-Learning platform. 
+Your goal is to analyze the student's learning request, provide a helpful response, and identify the key topics or skills they are looking for.
 
-Available courses (JSON):
-${JSON.stringify(availableCourses.map(c => ({ id: c._id, title: c.title, description: c.description })))}
 Instructions:
 1. If the student's request is vague or unclear, ask a clarifying question to understand what they want to learn.
-2. If the student asks for a topic or skill, find the most suitable courses from the JSON list provided and return their IDs in the \`courseIds\` array (max 3).
-3. In your \`message\`, you MUST provide a short, friendly explanation of WHY these specific courses match their request. Do not just list the course names in the message.
-4. ALWAYS return ONLY a valid JSON object matching this structure exactly (no markdown formatting, just raw JSON):
+2. Otherwise, identify the core topics, skills, or concepts the student is asking about.
+3. Extract 1 to 4 highly relevant keywords from their request that can be used to search our course catalog.
+4. Provide a friendly, encouraging message explaining why learning these topics is beneficial.
+5. ALWAYS return your response as a strictly valid JSON object exactly matching this structure (no markdown formatting, no comments, just raw JSON):
 {
-    "message": "Your explanation of why these courses are suitable (or your clarifying question).\\nUse line breaks if needed.",
-    "courseIds": ["id1", "id2"] // Leave this array empty if you are just asking a clarifying question.
+    "message": "Your friendly explanation or clarifying question.",
+    "keywords": ["keyword1", "keyword2"] // array of extracted keywords, or empty if asking a clarifying question
 }
 `;
 
@@ -33,7 +32,7 @@ Instructions:
                 body: JSON.stringify({
                     model: 'gpt-3.5-turbo',
                     messages: apiMessages,
-                    temperature: 0.7
+                    temperature: 0.3
                 })
             });
 
@@ -45,13 +44,44 @@ Instructions:
                 try {
                     const parsed = JSON.parse(content);
                     
-                    const recommendedCourses = parsed.courseIds
-                        .map(id => availableCourses.find(c => c._id.toString() === id))
-                        .filter(Boolean);
+                    let recommendedCourses = [];
+                    if (parsed.keywords && Array.isArray(parsed.keywords) && parsed.keywords.length > 0) {
+                        const lowerKeywords = parsed.keywords.map(k => k.toLowerCase());
+                        
+                        // Filter available courses using the keywords
+                        recommendedCourses = availableCourses.filter(course => {
+                            const title = (course.title || "").toLowerCase();
+                            const desc = (course.description || "").toLowerCase();
+                            const category = (course.category || "").toLowerCase();
+                            
+                            // Check if ANY of the AI's keywords are found in the course's title, description, or category
+                            return lowerKeywords.some(keyword => 
+                                title.includes(keyword) || 
+                                desc.includes(keyword) || 
+                                category.includes(keyword)
+                            );
+                        });
+                        
+                        // Score the courses so the ones with more keyword matches appear first
+                        recommendedCourses.sort((a, b) => {
+                            const titleA = (a.title || "").toLowerCase();
+                            const descA = (a.description || "").toLowerCase();
+                            const categoryA = (a.category || "").toLowerCase();
+                            
+                            const titleB = (b.title || "").toLowerCase();
+                            const descB = (b.description || "").toLowerCase();
+                            const categoryB = (b.category || "").toLowerCase();
+                            
+                            const scoreA = lowerKeywords.reduce((acc, kw) => acc + (titleA.includes(kw) ? 2 : 0) + (descA.includes(kw) ? 1 : 0) + (categoryA.includes(kw) ? 1 : 0), 0);
+                            const scoreB = lowerKeywords.reduce((acc, kw) => acc + (titleB.includes(kw) ? 2 : 0) + (descB.includes(kw) ? 1 : 0) + (categoryB.includes(kw) ? 1 : 0), 0);
+                            
+                            return scoreB - scoreA;
+                        });
+                    }
 
                     return {
                         message: parsed.message,
-                        courses: recommendedCourses
+                        courses: recommendedCourses.slice(0, 4) // Show top 4 recommended courses
                     };
                 } catch (parseError) {
                     console.error("Failed to parse AI JSON response:", content);
