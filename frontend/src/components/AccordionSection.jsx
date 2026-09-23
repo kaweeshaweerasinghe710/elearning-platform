@@ -10,6 +10,7 @@ const AccordionSection = ({ title, children, showCollapseAll = false, onCollapse
                 className="px-5 py-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors"
                 onClick={() => setIsOpen(!isOpen)}
             >
+                
                 <div className="flex items-center gap-3">
                     <div className="text-gray-400">
                         <ChevronDown size={18} style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s ease' }} />
