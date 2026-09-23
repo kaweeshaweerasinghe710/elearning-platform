@@ -23,9 +23,6 @@ jobs:
             cd frontend
             echo "VITE_API_URL=/api" > .env
             echo "VITE_GOOGLE_CLIENT_ID=781175488258-6nbe2tvspmc3p2dk42dkt7t94scf6p8d.apps.googleusercontent.com" >> .env
-            npm install
-            npm run build
             
-            cd ../backend
-            npm install
-            pm2 restart learnify-backend
+            cd ..
+            docker-compose up -d --build
