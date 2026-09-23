@@ -47,33 +47,24 @@ Instructions:
                     let recommendedCourses = [];
                     if (parsed.keywords && Array.isArray(parsed.keywords) && parsed.keywords.length > 0) {
                         const lowerKeywords = parsed.keywords.map(k => k.toLowerCase());
-                        
-                        // Filter available courses using the keywords
+      
                         recommendedCourses = availableCourses.filter(course => {
                             const title = (course.title || "").toLowerCase();
                             const desc = (course.description || "").toLowerCase();
-                            const category = (course.category || "").toLowerCase();
                             
-                            // Check if ANY of the AI's keywords are found in the course's title, description, or category
-                            return lowerKeywords.some(keyword => 
-                                title.includes(keyword) || 
-                                desc.includes(keyword) || 
-                                category.includes(keyword)
-                            );
+    
+                            return lowerKeywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
                         });
                         
-                        // Score the courses so the ones with more keyword matches appear first
+                     
                         recommendedCourses.sort((a, b) => {
                             const titleA = (a.title || "").toLowerCase();
-                            const descA = (a.description || "").toLowerCase();
-                            const categoryA = (a.category || "").toLowerCase();
-                            
                             const titleB = (b.title || "").toLowerCase();
+                            const descA = (a.description || "").toLowerCase();
                             const descB = (b.description || "").toLowerCase();
-                            const categoryB = (b.category || "").toLowerCase();
                             
-                            const scoreA = lowerKeywords.reduce((acc, kw) => acc + (titleA.includes(kw) ? 2 : 0) + (descA.includes(kw) ? 1 : 0) + (categoryA.includes(kw) ? 1 : 0), 0);
-                            const scoreB = lowerKeywords.reduce((acc, kw) => acc + (titleB.includes(kw) ? 2 : 0) + (descB.includes(kw) ? 1 : 0) + (categoryB.includes(kw) ? 1 : 0), 0);
+                            const scoreA = lowerKeywords.reduce((acc, kw) => acc + (titleA.includes(kw) ? 3 : 0) + (descA.includes(kw) ? 1 : 0), 0);
+                            const scoreB = lowerKeywords.reduce((acc, kw) => acc + (titleB.includes(kw) ? 3 : 0) + (descB.includes(kw) ? 1 : 0), 0);
                             
                             return scoreB - scoreA;
                         });
@@ -96,15 +87,31 @@ Instructions:
 
 
     const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
-    const lowerPrompt = lastUserMessage.toLowerCase();
-    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 3 && !['want', 'this', 'that', 'what', 'should', 'would', 'could'].includes(w));
+    const lowerPrompt = lastUserMessage.toLowerCase().replace(/[^\w\s]/g, ""); 
+   
+    const stopWords = ['want', 'this', 'that', 'what', 'should', 'would', 'could', 'learn', 'learning', 'course', 'courses', 'about', 'some', 'please', 'teach', 'give', 'show', 'best', 'good', 'need', 'help', 'find', 'from', 'with', 'have', 'make', 'know', 'tell'];
+    
+    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 2 && !stopWords.includes(w));
     
     let fallbackMatches = [];
     if (keywords.length > 0) {
         fallbackMatches = availableCourses.filter(course => {
             const title = (course.title || "").toLowerCase();
             const desc = (course.description || "").toLowerCase();
+        
             return keywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
+        });
+        
+        fallbackMatches.sort((a, b) => {
+            const titleA = (a.title || "").toLowerCase();
+            const titleB = (b.title || "").toLowerCase();
+            const descA = (a.description || "").toLowerCase();
+            const descB = (b.description || "").toLowerCase();
+            
+            const scoreA = keywords.reduce((score, kw) => score + (titleA.includes(kw) ? 3 : 0) + (descA.includes(kw) ? 1 : 0), 0);
+            const scoreB = keywords.reduce((score, kw) => score + (titleB.includes(kw) ? 3 : 0) + (descB.includes(kw) ? 1 : 0), 0);
+            
+            return scoreB - scoreA;
         });
     }
 
