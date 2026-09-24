@@ -117,7 +117,7 @@ Instructions:
 
     return {
         message: fallbackMatches.length > 0 
-            ? "Here are some courses that match the keywords in your request:"
+            ? "Here are some courses that match to your request:"
             : "I couldn't find any courses matching those exact keywords.",
         courses: fallbackMatches.slice(0, 3)
     };
