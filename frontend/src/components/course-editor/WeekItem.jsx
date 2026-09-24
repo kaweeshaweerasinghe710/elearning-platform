@@ -9,9 +9,11 @@ const WeekItem = ({ week, wIdx, onChange, onRemove, onSaveWeek }) => {
         newLinks[idx] = { ...newLinks[idx], [field]: val };
         onChange('classLinks', newLinks);
     };
+
     const removeClassLink = (idx) => onChange('classLinks', (week.classLinks || []).filter((_, i) => i !== idx));
 
     const addResource = () => onChange('resources', [...(week.resources || []), { title: '', url: '' }]);
+
     const updateResource = (idx, field, val) => {
         const newRes = [...(week.resources || [])];
         if (typeof field === 'object') {
@@ -21,6 +23,7 @@ const WeekItem = ({ week, wIdx, onChange, onRemove, onSaveWeek }) => {
         }
         onChange('resources', newRes);
     };
+    
     const removeResource = (idx) => onChange('resources', (week.resources || []).filter((_, i) => i !== idx));
 
     return (

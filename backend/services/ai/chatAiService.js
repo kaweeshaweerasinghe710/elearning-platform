@@ -20,7 +20,7 @@ Reply with clear, helpful text. Use line breaks (\\n) for readability. Do not re
                         { role: 'system', content: systemPrompt },
                         { role: 'user', content: userPrompt }
                     ],
-                    temperature: 0.7
+                    temperature: 0.5
                 })
             });
 

@@ -1,19 +1,27 @@
 const getAIRecommendations = async (messages, availableCourses) => {
     const apiKey = process.env.OPENAI_API_KEY;
-    const systemPrompt = `
-You are a friendly student personal assistant for an E-Learning platform. 
-Your goal is to recommend the best courses to a student based on their request.
+    const courseCatalog = JSON.stringify(availableCourses.map(c => ({ 
+        id: c._id ? c._id.toString() : c.id, 
+        title: c.title, 
+        description: c.description 
+    })));
 
-Available courses (JSON):
-${JSON.stringify(availableCourses.map(c => ({ id: c._id, title: c.title, description: c.description })))}
+    const systemPrompt = `
+You are an intelligent educational advisor for an E-Learning platform.
+Your goal is to analyze the student's learning request and recommend the most suitable courses straight from our catalog based on meaning and concepts (semantic matching), NOT just exact keywords.
+For example, if a student asks for "computer science", you should recommend courses related to software, programming, algorithms, AI, etc., even if the word "computer science" is not in the title. THINK about what the student actually wants to learn.
+
+Here is the available course catalog:
+${courseCatalog}
+
 Instructions:
-1. If the student's request is vague or unclear, ask a clarifying question to understand what they want to learn.
-2. If the student asks for a topic or skill, find the most suitable courses from the JSON list provided and return their IDs in the \`courseIds\` array (max 3).
-3. In your \`message\`, you MUST provide a short, friendly explanation of WHY these specific courses match their request. Do not just list the course names in the message.
-4. ALWAYS return ONLY a valid JSON object matching this structure exactly (no markdown formatting, just raw JSON):
+1. If the student's request is vague, ask a clarifying question.
+2. Otherwise, use your reasoning to select ALL of the best matching courses from the catalog that conceptually fit their needs. Do not limit the number of courses; return every relevant course.
+3. Provide a friendly, encouraging message explaining why you selected these courses.
+4. ALWAYS return your response as a strictly valid JSON object exactly matching this structure (no markdown formatting, no comments):
 {
-    "message": "Your explanation of why these courses are suitable (or your clarifying question).\\nUse line breaks if needed.",
-    "courseIds": ["id1", "id2"] // Leave this array empty if you are just asking a clarifying question.
+    "message": "Your friendly explanation or clarifying question.",
+    "recommendedCourseIds": ["course_id_1", "course_id_2"]
 }
 `;
 
@@ -33,7 +41,7 @@ Instructions:
                 body: JSON.stringify({
                     model: 'gpt-3.5-turbo',
                     messages: apiMessages,
-                    temperature: 0.7
+                    temperature: 0.3
                 })
             });
 
@@ -45,45 +53,43 @@ Instructions:
                 try {
                     const parsed = JSON.parse(content);
                     
-                    const recommendedCourses = parsed.courseIds
-                        .map(id => availableCourses.find(c => c._id.toString() === id))
-                        .filter(Boolean);
+                    let recommendedCourses = [];
+                    if (parsed.recommendedCourseIds && Array.isArray(parsed.recommendedCourseIds) && parsed.recommendedCourseIds.length > 0) {
+                        recommendedCourses = availableCourses.filter(course => {
+                            const courseId = course._id ? course._id.toString() : course.id;
+                            return parsed.recommendedCourseIds.includes(courseId);
+                        });
+                    }
 
                     return {
                         message: parsed.message,
                         courses: recommendedCourses
                     };
                 } catch (parseError) {
-                    console.error("Failed to parse AI JSON response:", content);
+                    return {
+                        message: `Error parsing AI response. The AI model returned invalid JSON: ${content}`,
+                        courses: []
+                    };
                 }
             } else {
-                console.error("OpenAI API error:", await response.text());
+                const errText = await response.text();
+                return {
+                    message: `OpenAI API Error: status ${response.status}, details: ${errText}`,
+                    courses: []
+                };
             }
         } catch (error) {
-            console.error("AI API Error:", error);
+            return {
+                message: `Server Error while contacting OpenAI: ${error.message}`,
+                courses: []
+            };
         }
+    } else {
+        return {
+            message: "API Key (OPENAI_API_KEY) is missing in the backend environment.",
+            courses: []
+        };
     }
-
-
-    const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
-    const lowerPrompt = lastUserMessage.toLowerCase();
-    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 3 && !['want', 'this', 'that', 'what', 'should', 'would', 'could'].includes(w));
-    
-    let fallbackMatches = [];
-    if (keywords.length > 0) {
-        fallbackMatches = availableCourses.filter(course => {
-            const title = (course.title || "").toLowerCase();
-            const desc = (course.description || "").toLowerCase();
-            return keywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
-        });
-    }
-
-    return {
-        message: fallbackMatches.length > 0 
-            ? "Here are some courses that match the keywords in your request:"
-            : "I couldn't find any courses matching those exact keywords.",
-        courses: fallbackMatches.slice(0, 3)
-    };
 };
 
 module.exports = { getAIRecommendations };
