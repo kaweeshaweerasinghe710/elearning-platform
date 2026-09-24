@@ -16,7 +16,7 @@ ${courseCatalog}
 
 Instructions:
 1. If the student's request is vague, ask a clarifying question.
-2. Otherwise, use your reasoning to select up to 4 of the best matching courses from the catalog that conceptually fit their needs.
+2. Otherwise, use your reasoning to select ALL of the best matching courses from the catalog that conceptually fit their needs. Do not limit the number of courses; return every relevant course.
 3. Provide a friendly, encouraging message explaining why you selected these courses.
 4. ALWAYS return your response as a strictly valid JSON object exactly matching this structure (no markdown formatting, no comments):
 {
@@ -63,7 +63,7 @@ Instructions:
 
                     return {
                         message: parsed.message,
-                        courses: recommendedCourses.slice(0, 4)
+                        courses: recommendedCourses
                     };
                 } catch (parseError) {
                     console.error("Failed to parse AI JSON response:", content);
@@ -76,41 +76,9 @@ Instructions:
         }
     }
 
-
-    const lastUserMessage = messages.slice().reverse().find(m => m.role === 'user')?.content || "";
-    const lowerPrompt = lastUserMessage.toLowerCase().replace(/[^\w\s]/g, ""); 
-   
-    const stopWords = ['want', 'this', 'that', 'what', 'should', 'would', 'could', 'learn', 'learning', 'course', 'courses', 'about', 'some', 'please', 'teach', 'give', 'show', 'best', 'good', 'need', 'help', 'find', 'from', 'with', 'have', 'make', 'know', 'tell'];
-    
-    const keywords = lowerPrompt.split(/\s+/).filter(w => w.length > 2 && !stopWords.includes(w));
-    
-    let fallbackMatches = [];
-    if (keywords.length > 0) {
-        fallbackMatches = availableCourses.filter(course => {
-            const title = (course.title || "").toLowerCase();
-            const desc = (course.description || "").toLowerCase();
-        
-            return keywords.some(keyword => title.includes(keyword) || desc.includes(keyword));
-        });
-        
-        fallbackMatches.sort((a, b) => {
-            const titleA = (a.title || "").toLowerCase();
-            const titleB = (b.title || "").toLowerCase();
-            const descA = (a.description || "").toLowerCase();
-            const descB = (b.description || "").toLowerCase();
-            
-            const scoreA = keywords.reduce((score, kw) => score + (titleA.includes(kw) ? 3 : 0) + (descA.includes(kw) ? 1 : 0), 0);
-            const scoreB = keywords.reduce((score, kw) => score + (titleB.includes(kw) ? 3 : 0) + (descB.includes(kw) ? 1 : 0), 0);
-            
-            return scoreB - scoreA;
-        });
-    }
-
     return {
-        message: fallbackMatches.length > 0 
-            ? "Here are some courses that match to your request:"
-            : "I couldn't find any courses matching those exact keywords.",
-        courses: fallbackMatches.slice(0, 3)
+        message: "I'm sorry, my AI advisor is currently down or unable to process the request. Please try again later.",
+        courses: []
     };
 };
 
