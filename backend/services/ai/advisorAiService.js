@@ -66,20 +66,30 @@ Instructions:
                         courses: recommendedCourses
                     };
                 } catch (parseError) {
-                    console.error("Failed to parse AI JSON response:", content);
+                    return {
+                        message: `Error parsing AI response. The AI model returned invalid JSON: ${content}`,
+                        courses: []
+                    };
                 }
             } else {
-                console.error("OpenAI API error:", await response.text());
+                const errText = await response.text();
+                return {
+                    message: `OpenAI API Error: status ${response.status}, details: ${errText}`,
+                    courses: []
+                };
             }
         } catch (error) {
-            console.error("AI API Error:", error);
+            return {
+                message: `Server Error while contacting OpenAI: ${error.message}`,
+                courses: []
+            };
         }
+    } else {
+        return {
+            message: "API Key (OPENAI_API_KEY) is missing in the backend environment.",
+            courses: []
+        };
     }
-
-    return {
-        message: "I'm sorry, my AI advisor is currently down or unable to process the request. Please try again later.",
-        courses: []
-    };
 };
 
 module.exports = { getAIRecommendations };
