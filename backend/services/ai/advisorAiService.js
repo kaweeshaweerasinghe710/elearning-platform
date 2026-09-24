@@ -7,7 +7,7 @@ Your goal is to analyze the student's learning request, provide a helpful respon
 Instructions:
 1. If the student's request is vague or unclear, ask a clarifying question to understand what they want to learn.
 2. Otherwise, identify the core topics, skills, or concepts the student is asking about.
-3. Extract 1 to 4 highly relevant keywords from their request that can be used to search our course catalog.
+3. Generate 3 to 6 highly relevant keywords. DO NOT limit yourself to extracting only the exact words the user typed. Instead, generate broad related synonyms and sub-topics. For example, if they ask for "computer science", include keywords like "artificial intelligence", "programming", "software", "algorithms", etc.
 4. Provide a friendly, encouraging message explaining why learning these topics is beneficial.
 5. ALWAYS return your response as a strictly valid JSON object exactly matching this structure (no markdown formatting, no comments, just raw JSON):
 {
